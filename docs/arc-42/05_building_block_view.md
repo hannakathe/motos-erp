@@ -39,7 +39,26 @@
 - **Recepcion**: registra un evento de llegada de mercancía asociado a una orden de compra, ya que una orden puede recibirse en una o varias entregas parciales.
 - **Recepcion_Detalle**: cantidad efectivamente recibida por cada línea de la orden en una recepción determinada.
 
-## 5.3 Nivel 2 y Nivel 3
+## 5.3 Vista Lógica (Diagrama de Clases y Objetos)
+
+*(Sección en construcción: el diagrama de clases y el de objetos ya están modelados; falta reconciliar su dominio con el resto de la Vista de Bloques una vez se completen los diagramas de Contexto, Contenedores, Secuencia y MER pendientes.)*
+
+[diagrama_clases.plantuml](../diagramas/plantuml/diagrama_clases.plantuml) — [diagrama_objetos.plantuml](../diagramas/plantuml/diagrama_objetos.plantuml)
+
+**Clases principales**: `Cliente`, `Vendedor`, `Moto`, `Repuesto`, `Factura`, `DetalleFactura`, `OrdenTaller`, `Mecanico`.
+
+- **Cliente**: persona que adquiere motos/repuestos y/o solicita servicio de taller.
+- **Vendedor**: registra ventas (facturas) a nombre de un cliente.
+- **Moto**: unidad de inventario vendible, identificada por su chasis.
+- **Repuesto**: ítem de inventario usado tanto en ventas directas como en órdenes de taller.
+- **Factura**: comprobante de una venta, compuesto por una o más líneas (`DetalleFactura`).
+- **DetalleFactura**: línea de factura que referencia una `Moto` o un `Repuesto`.
+- **OrdenTaller**: solicitud de servicio de un cliente, atendida por un `Mecanico` y que puede consumir `Repuesto`.
+- **Mecanico**: atiende órdenes de taller y registra diagnósticos.
+
+El diagrama de objetos ilustra una instancia concreta de este modelo: un cliente que compra una moto a través de un vendedor, documentado en una factura con su detalle.
+
+## 5.4 Nivel 2 y Nivel 3
 
 *(No aplica para el alcance de este taller — se documentaría aquí el desglose interno de la API REST en componentes, si el proyecto avanzara a ese nivel de detalle.)*
 
