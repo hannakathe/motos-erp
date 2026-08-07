@@ -29,21 +29,23 @@ class Vendedor {
   + registrarVenta()
 }
 
-class Moto {
+abstract class ItemVendible {
+  - precio: double
+}
+
+class Moto extends ItemVendible {
   - chasis: String
   - marca: String
   - modelo: String
   - cilindraje: int
   - color: String
-  - precio: double
   - estado: String
   + actualizarEstado()
 }
 
-class Repuesto {
+class Repuesto extends ItemVendible {
   - codigo: String
   - nombre: String
-  - precio: double
   - cantidadStock: int
   + descontarStock()
   + reabastecer()
@@ -84,8 +86,9 @@ class Mecanico {
 Cliente "1" -- "0..*" Factura : realiza >
 Vendedor "1" -- "0..*" Factura : registra >
 Factura "1" *-- "1..*" DetalleFactura : contiene
-DetalleFactura "0..*" -- "1" Moto : referencia >
-DetalleFactura "0..*" -- "1" Repuesto : referencia >
+DetalleFactura "0..*" -- "1" ItemVendible : referencia >
+Moto --|> ItemVendible
+Repuesto --|> ItemVendible
 Cliente "1" -- "0..*" OrdenTaller : solicita >
 Mecanico "1" -- "0..*" OrdenTaller : atiende >
 OrdenTaller "0..*" -- "0..*" Repuesto : utiliza >

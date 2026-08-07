@@ -45,14 +45,15 @@
 
 [diagrama_clases.plantuml](../diagramas/plantuml/diagrama_clases.plantuml) — [diagrama_objetos.plantuml](../diagramas/plantuml/diagrama_objetos.plantuml)
 
-**Clases principales**: `Cliente`, `Vendedor`, `Moto`, `Repuesto`, `Factura`, `DetalleFactura`, `OrdenTaller`, `Mecanico`.
+**Clases principales**: `Cliente`, `Vendedor`, `ItemVendible` (abstracta), `Moto`, `Repuesto`, `Factura`, `DetalleFactura`, `OrdenTaller`, `Mecanico`.
 
 - **Cliente**: persona que adquiere motos/repuestos y/o solicita servicio de taller.
 - **Vendedor**: registra ventas (facturas) a nombre de un cliente.
+- **ItemVendible**: clase abstracta que agrupa lo que una línea de factura puede referenciar (atributo común `precio`); `Moto` y `Repuesto` heredan de ella. Existe para que `DetalleFactura` tenga una única asociación obligatoria (a `ItemVendible`) en vez de dos asociaciones obligatorias simultáneas a `Moto` y a `Repuesto`, que exigirían ambas presentes en cada línea.
 - **Moto**: unidad de inventario vendible, identificada por su chasis.
 - **Repuesto**: ítem de inventario usado tanto en ventas directas como en órdenes de taller.
 - **Factura**: comprobante de una venta, compuesto por una o más líneas (`DetalleFactura`).
-- **DetalleFactura**: línea de factura que referencia una `Moto` o un `Repuesto`.
+- **DetalleFactura**: línea de factura que referencia un `ItemVendible` (una `Moto` o un `Repuesto`).
 - **OrdenTaller**: solicitud de servicio de un cliente, atendida por un `Mecanico` y que puede consumir `Repuesto`.
 - **Mecanico**: atiende órdenes de taller y registra diagnósticos.
 
