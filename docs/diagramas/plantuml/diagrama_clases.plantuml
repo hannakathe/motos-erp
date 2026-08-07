@@ -1,0 +1,93 @@
+@startuml diagrama_clases
+skinparam backgroundColor #FFFFFF
+skinparam classAttributeIconSize 0
+skinparam class {
+  BackgroundColor #F4F3EE
+  BorderColor #1c2431
+  ArrowColor #0F6E56
+  FontColor #1c2431
+  FontName Helvetica
+}
+skinparam packageStyle rectangle
+skinparam titleFontSize 16
+title Diagrama de Clases — ERP Concesionario de Motos (Vista Lógica)
+
+class Cliente {
+  - idCliente: int
+  - nombre: String
+  - documento: String
+  - telefono: String
+  - correo: String
+  + registrar()
+  + consultarHistorial()
+}
+
+class Vendedor {
+  - idVendedor: int
+  - nombre: String
+  - comisionPorcentaje: double
+  + registrarVenta()
+}
+
+class Moto {
+  - chasis: String
+  - marca: String
+  - modelo: String
+  - cilindraje: int
+  - color: String
+  - precio: double
+  - estado: String
+  + actualizarEstado()
+}
+
+class Repuesto {
+  - codigo: String
+  - nombre: String
+  - precio: double
+  - cantidadStock: int
+  + descontarStock()
+  + reabastecer()
+}
+
+class Factura {
+  - numeroFactura: String
+  - fecha: Date
+  - subtotal: double
+  - impuestos: double
+  - total: double
+  + generarPDF()
+  + calcularTotal()
+}
+
+class DetalleFactura {
+  - cantidad: int
+  - precioUnitario: double
+  - subtotalLinea: double
+}
+
+class OrdenTaller {
+  - idOrden: int
+  - fechaIngreso: Date
+  - diagnostico: String
+  - estado: String
+  + asignarMecanico()
+  + cerrarOrden()
+}
+
+class Mecanico {
+  - idMecanico: int
+  - nombre: String
+  - especialidad: String
+  + registrarDiagnostico()
+}
+
+Cliente "1" -- "0..*" Factura : realiza >
+Vendedor "1" -- "0..*" Factura : registra >
+Factura "1" *-- "1..*" DetalleFactura : contiene
+DetalleFactura "0..*" -- "1" Moto : referencia >
+DetalleFactura "0..*" -- "1" Repuesto : referencia >
+Cliente "1" -- "0..*" OrdenTaller : solicita >
+Mecanico "1" -- "0..*" OrdenTaller : atiende >
+OrdenTaller "0..*" -- "0..*" Repuesto : utiliza >
+
+@enduml

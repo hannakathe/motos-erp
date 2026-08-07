@@ -1,0 +1,54 @@
+@startuml diagrama_objetos
+skinparam backgroundColor #FFFFFF
+skinparam object {
+  BackgroundColor #F4F3EE
+  BorderColor #1c2431
+  ArrowColor #0F6E56
+  FontColor #1c2431
+  FontName Helvetica
+}
+title Diagrama de Objetos — ERP Concesionario de Motos (instancia)
+
+object "cliente001 : Cliente" as cliente001 {
+  idCliente = 101
+  nombre = "Camilo Restrepo"
+  documento = "1019xxxxx"
+  telefono = "300xxxxxxx"
+}
+
+object "vendedor01 : Vendedor" as vendedor01 {
+  idVendedor = 7
+  nombre = "Laura Gómez"
+  comisionPorcentaje = 5.0
+}
+
+object "factura2026034 : Factura" as factura2026034 {
+  numeroFactura = "F-2026-034"
+  fecha = "2026-08-04"
+  subtotal = 8200000
+  impuestos = 1558000
+  total = 9758000
+}
+
+object "detalle01 : DetalleFactura" as detalle01 {
+  cantidad = 1
+  precioUnitario = 8200000
+  subtotalLinea = 8200000
+}
+
+object "motoAKT125 : Moto" as motoAKT125 {
+  chasis = "AKT125-CH00291"
+  marca = "AKT"
+  modelo = "NKD 125"
+  cilindraje = 125
+  color = "Rojo"
+  precio = 8200000
+  estado = "Vendida"
+}
+
+cliente001 -- factura2026034 : realiza
+vendedor01 -- factura2026034 : registra
+factura2026034 *-- detalle01 : contiene
+detalle01 -- motoAKT125 : referencia
+
+@enduml
