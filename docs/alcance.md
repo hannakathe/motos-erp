@@ -1,4 +1,4 @@
-# Alcance del sistema — ERP Concesionario de Motos
+# Alcance del sistema — ERP Concesionario de Motos Andina Motors
 
 La guía pide definir el alcance del sistema mediante la **triple restricción** (tiempo, costo, alcance). Esta versión se ajusta con base en lo que ya está modelado en el diagrama de clases y objetos (vista lógica), para que el alcance describa el sistema real que se está construyendo y no solo una intención general.
 
@@ -55,7 +55,7 @@ Estos elementos sí son parte del proyecto, pero aún no están completos al mom
 - Modelo Entidad-Relación (MER).
 - Reconciliación del dominio de clases con el resto de la Vista de Bloques, una vez estén listos los diagramas anteriores.
 
-## Fuera del alcance (no se desarrolla en este taller)
+## Fuera del alcance 
 
 - Nivel 2 y Nivel 3 del modelo C4 (desglose interno de la API REST en componentes) — no aplica para el alcance de este taller; se documentaría solo si el proyecto avanzara a ese nivel de detalle.
 - Integración en tiempo real con proveedores o fábrica.
