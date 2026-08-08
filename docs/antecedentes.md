@@ -8,7 +8,6 @@ Cada integrante investigó una app:
 - **APP2** — Shift Industry (Ingrid)
 - **APP3** — Autologica Sky DMS (Marlon)
 
-> Nota: si alguna prefiere cambiar su app por otra que haya investigado por su cuenta, puede reemplazar esa sección completa sin problema.
 
 ## APP1 — CDK Global (Hanna)
 
