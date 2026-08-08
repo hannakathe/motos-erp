@@ -1,6 +1,6 @@
 # Requisitos funcionales — ERP Concesionario de Motos
 
-Árbol de descomposición de requisitos funcionales, máximo 4 niveles.
+Árbol de descomposición de requisitos funcionales, con 4 niveles.
 
 ## Árbol jerárquico
 
@@ -48,7 +48,7 @@ ERP CONCESIONARIO DE MOTOS
         └── 4.2.1 Consultar disponibilidad de taller
 ```
 
-## Detalle de requisitos
+## Detalle de los  requisitos funcionales 
 
 ### Rama 1 — Gestionar Inventario (Stock/Costos)
 
