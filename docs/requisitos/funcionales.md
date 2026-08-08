@@ -1,4 +1,4 @@
-# Requisitos funcionales — ERP Concesionario de Motos
+# Requisitos funcionales — ERP Concesionario de Motos Andina Motors
 
 Árbol de descomposición de requisitos funcionales, con 4 niveles.
 
