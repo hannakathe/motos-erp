@@ -1,4 +1,4 @@
-# Cuadro de antecedentes — ERP Concesionario de Motos
+# Cuadro de antecedentes — ERP-Andina Motors- Concesionario de Motos
 
 Este documento compara nuestro ERP propio contra 3 aplicaciones existentes en el mercado, para justificar por qué vale la pena construir un sistema a medida en vez de usar una solución ya disponible.
 
@@ -13,7 +13,7 @@ Cada integrante investigó una app:
 
 CDK Global es un DMS (Dealer Management System) usado por más de 15.000 concesionarios, orientado a vehículos automotores en general (autos, camiones, motos y equipos), no exclusivo del sector motos.
 
-| Criterio | APP1 — CDK Global | Tu ERP propio |
+| Criterio | APP1 — CDK Global | Andina Motors |
 |---|---|---|
 | Especialización | Genérico para concesionarios de vehículos (autos, camiones, motos), orientado a grupos grandes y multisede | Diseñado específicamente para nuestro concesionario de motos |
 | Costo | No publica precio fijo; funciona por cotización y demo | Sin costo de licencia (desarrollo propio) |
@@ -27,7 +27,7 @@ Fuente: [capterra.com/p/122988/CDK-Global](https://www.capterra.com/p/122988/CDK
 
 Shift Industry es un DMS orientado específicamente a concesionarios y talleres de motocicletas, con foco fuerte en el área de servicio/taller.
 
-| Criterio | APP2 — Shift Industry | Tu ERP propio |
+| Criterio | APP2 — Shift Industry | Andina Motors |
 |---|---|---|
 | Especialización | Diseñado específicamente para concesionarios y talleres de motocicletas | Diseñado específicamente para nuestro concesionario de motos |
 | Costo | No publica precio fijo; funciona por cotización | Sin costo de licencia (desarrollo propio) |
@@ -41,7 +41,7 @@ Fuente: [shiftindustry.com/es-es/motorcycle-dealer-shop-software](https://www.sh
 
 Software DMS especializado específicamente en concesionarios de motocicletas — no es un ERP genérico adaptado, sino diseñado para el sector exacto.
 
-| Criterio | APP3 — Autologica Sky DMS | Tu ERP propio |
+| Criterio | APP3 — Autologica Sky DMS | Andina Motors |
 |---|---|---|
 | Especialización | Diseñado específicamente para concesionarios de motos/vehículos | Diseñado específicamente para nuestro concesionario de motos |
 | Costo | Cotización personalizada (no publica precios públicos, común en software B2B especializado) | Sin costo de licencia (desarrollo propio) |
@@ -53,7 +53,7 @@ Fuente: [autologica.com/es/industria-motos](https://www.autologica.com/es/indust
 
 ## Cuadro comparativo consolidado
 
-| Criterio | APP1 — CDK Global | APP2 — Shift Industry | APP3 — Autologica Sky DMS | Tu ERP propio |
+| Criterio | APP1 — CDK Global | APP2 — Shift Industry | APP3 — Autologica Sky DMS | Andina Motors |
 |---|---|---|---|---|
 | Especialización | Genérico multivehículo | Motos y talleres de motos | Motos/vehículos | Concesionario de motos propio |
 | Costo | Por cotización | Por cotización | Cotización personalizada | Sin costo de licencia |
