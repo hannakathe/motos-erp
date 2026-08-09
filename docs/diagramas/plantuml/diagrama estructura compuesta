@@ -1,4 +1,4 @@
-@startuml diagrama_estructura_compuesta
+@startuml diagrama_estructuracompuesta
 
 skinparam backgroundColor #FFFFFF
 skinparam componentStyle rectangle
