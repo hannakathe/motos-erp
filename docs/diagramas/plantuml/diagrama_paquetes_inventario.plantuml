@@ -1,0 +1,21 @@
+@startuml
+package "Inventario (Stock/Costos)" {
+
+  package "GestionMotos" {
+    class RegistrarMotoNueva
+    class ConsultarDisponibilidad
+  }
+
+  package "GestionRepuestos" {
+    class RegistrarRepuesto
+    class DefinirStockMinimo
+  }
+
+  package "Costos" {
+    class ActualizarCostoInventario
+  }
+}
+
+GestionRepuestos ..> GestionMotos
+Costos ..> GestionMotos
+@enduml

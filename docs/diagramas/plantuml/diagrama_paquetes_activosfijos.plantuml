@@ -1,0 +1,9 @@
+@startuml
+package "ActivosFijos" {
+
+  package "ControlActivos" {
+    class RegistrarActivo
+    class CalcularDepreciacion
+  }
+}
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+package "Empleados" {
+
+  package "GestionPersonal" {
+    class RegistrarVendedor
+    class RegistrarMecanico
+  }
+
+  package "AsignacionTaller" {
+    class AsignarOrdenAMecanico
+    class ConsultarDisponibilidadTaller
+  }
+}
+
+AsignacionTaller ..> GestionPersonal
+@enduml

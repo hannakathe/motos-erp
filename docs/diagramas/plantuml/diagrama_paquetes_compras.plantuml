@@ -1,0 +1,16 @@
+@startuml
+package "Compras" {
+
+  package "PedidosFabrica" {
+    class SeleccionarModelosYCantidades
+    class RegistrarFechaEntrega
+  }
+
+  package "RecepcionPedidos" {
+    class ValidarUnidadesContraOrden
+  }
+}
+
+PedidosFabrica ..> "EIS"
+RecepcionPedidos ..> PedidosFabrica
+@enduml

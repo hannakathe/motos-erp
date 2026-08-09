@@ -1,0 +1,9 @@
+@startuml
+package "EIS" {
+
+  package "Reportes" {
+    class ConsultarHistoricoVentas
+    class GenerarIndicadores
+  }
+}
+@enduml

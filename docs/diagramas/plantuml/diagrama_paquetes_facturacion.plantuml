@@ -1,0 +1,23 @@
+@startuml
+package "Facturación" {
+
+  package "VentaMotos" {
+    class VerificarDisponibilidad
+    class CalcularImpuestos
+    class GenerarComprobantePDF
+  }
+
+  package "OrdenServicio" {
+    class RegistrarRepuestosUsados
+    class RegistrarManoDeObra
+  }
+
+  package "Comisiones" {
+    class CalcularComisionVendedor
+  }
+}
+
+VentaMotos ..> "Inventario (Stock/Costos)"
+OrdenServicio ..> "Inventario (Stock/Costos)"
+Comisiones ..> "Empleados"
+@enduml
