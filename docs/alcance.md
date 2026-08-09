@@ -53,10 +53,6 @@ Pendiente / en construcción
 
 Estos elementos son parte del proyecto pero aún no están completos:
 
-Paquetes de los módulos Facturación, Stock/Costos y EIS (ya tienen componente definido, falta su diagrama de paquetes interno, igual que se hizo con ActivosFijos, Compras y Empleados).
-Diagrama de secuencia (mencionado en la documentación de Hanna como parte de la vista de procesos, no es uno de los 6 diagramas obligatorios de esta guía, pero se referencia como trabajo en curso del equipo).
-Modelo Entidad-Relación (MER), si el equipo decide documentarlo además de los diagramas UML pedidos.
-Fuera del alcance (no se desarrolla en este taller)
 Nivel 2 y Nivel 3 del modelo C4 (desglose interno de la API REST en componentes más finos) — no aplica para el alcance de este taller.
 Integración en tiempo real con proveedores o fábrica.
 Aplicación móvil para vendedores o mecánicos (el frontend definido es web, en React).
