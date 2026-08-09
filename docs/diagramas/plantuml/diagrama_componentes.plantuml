@@ -1,0 +1,16 @@
+@startuml
+package "ERP Andina Motors" {
+  [Inventario] as INV
+  [Facturación] as FAC
+  [Compras] as COM
+  [Empleados] as EMP
+  [EIS] as EIS
+  [ActivosFijos] as AF
+}
+
+FAC ..> INV : verificarDisponibilidad()
+FAC ..> INV : descontarRepuesto()
+FAC ..> EMP : consultarComision()
+COM ..> EIS : consultarHistoricoVentas()
+EMP ..> FAC : asignarMecanico()
+@enduml
