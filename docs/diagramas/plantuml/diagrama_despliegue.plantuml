@@ -1,0 +1,16 @@
+@startuml
+node "Cliente - Sucursal" as CLIENTE {
+  [Frontend React]
+}
+
+node "Servidor Cloud (AWS EC2)" as SERVIDOR {
+  [API Backend - Spring Boot]
+}
+
+node "Servidor BD (AWS RDS)" as BD {
+  database "PostgreSQL - AndinaMotorsDB"
+}
+
+CLIENTE --> SERVIDOR : HTTPS
+SERVIDOR --> BD : TCP/5432
+@enduml
