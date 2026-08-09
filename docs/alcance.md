@@ -59,5 +59,3 @@ Aplicación móvil para vendedores o mecánicos (el frontend definido es web, en
 Facturación electrónica ante entidad fiscal (DIAN u otra autoridad tributaria).
 Soporte multi-sucursal con sincronización en la nube entre sedes (el despliegue actual contempla una sola sucursal cliente conectada a un único servidor).
 Nota
-
-Este documento debe actualizarse cuando se completen los paquetes de Facturación, Stock/Costos y EIS, o si se agrega el diagrama de secuencia o el MER a los entregables del equipo.
