@@ -1,8 +1,18 @@
 @startuml diagrama_estructura_compuesta
 
-title Diagrama de Estructura Compuesta — Componente Facturación (ERP Andina Motors)
-
+skinparam backgroundColor #FFFFFF
 skinparam componentStyle rectangle
+skinparam component {
+  BackgroundColor #F4F3EE
+  BorderColor #1c2431
+  ArrowColor #0F6E56
+  FontColor #1c2431
+  FontName Helvetica
+}
+skinparam packageStyle rectangle
+skinparam titleFontSize 16
+
+title Diagrama de Estructura Compuesta — Componente Facturación (ERP Andina Motors)
 
 component "Facturación" as Facturacion {
   component "GeneradorComprobante" as Generador
