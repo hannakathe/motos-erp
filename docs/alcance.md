@@ -45,15 +45,7 @@ Se define qué queda dentro y qué queda fuera del proyecto, ajustado al dominio
 - Diagrama de clases y diagrama de objetos — completos.
 - Diagrama de componentes, despliegue, paquetes y estructura compuesta — en desarrollo según el reparto de tareas del equipo.
 
-## Pendiente / en construcción (no confundir con "fuera de alcance")
 
-Estos elementos sí son parte del proyecto, pero aún no están completos al momento de este documento:
-
-- Diagrama de Contexto.
-- Diagrama de Contenedores.
-- Diagrama de Secuencia.
-- Modelo Entidad-Relación (MER).
-- Reconciliación del dominio de clases con el resto de la Vista de Bloques, una vez estén listos los diagramas anteriores.
 
 ## Fuera del alcance 
 
@@ -66,4 +58,3 @@ Estos elementos sí son parte del proyecto, pero aún no están completos al mom
 
 ## Nota
 
-Este documento debe actualizarse cada vez que se complete uno de los diagramas pendientes (Contexto, Contenedores, Secuencia, MER), o si el dominio de clases cambia al reconciliarse con el resto de la Vista de Bloques.
