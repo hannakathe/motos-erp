@@ -36,15 +36,19 @@ OrdenTaller — solicitud de servicio de taller.
 
 Componentes y sus interfaces (diagrama de componentes):
 
-Facturación — expone verificarDisponibilidad(), descontarRepuesto() hacia Inventario, y consultarComision(), asignarMecanico() hacia Empleados.
-Compras — expone consultarHistoricoVentas() hacia EIS.
+Facturación — consume verificarDisponibilidad() y descontarRepuesto() de Inventario, y consultarComision() de Empleados.
+Empleados — consume asignarMecanico() de Facturación.
+Compras — consume consultarHistoricoVentas() de EIS.
 ActivosFijos, EIS — componentes definidos en la arquitectura general.
 
-Paquetes por módulo (diagrama de paquetes) — completados hasta ahora:
+Paquetes por módulo (diagrama de paquetes) — los 6 módulos:
 
 ActivosFijos → paquete ControlActivos, con RegistrarActivo y CalcularDepreciacion.
-Compras → paquetes RecepcionPedidos (ValidarUnidadesContraOrden) y PedidosFabrica (SeleccionarModelosYCantidades, RegistrarFechaEntrega), conectados a EIS.
-Empleados → paquetes AsignacionTaller (AsignarOrdenAMecanico, ConsultarDisponibilidadTaller) y GestionPersonal (RegistrarVendedor, RegistrarMecanico).
+Compras → paquetes PedidosFabrica (SeleccionarModelosYCantidades, RegistrarFechaEntrega), que depende de EIS, y RecepcionPedidos (ValidarUnidadesContraOrden), que depende de PedidosFabrica.
+Empleados → paquetes GestionPersonal (RegistrarVendedor, RegistrarMecanico) y AsignacionTaller (AsignarOrdenAMecanico, ConsultarDisponibilidadTaller), que depende de GestionPersonal.
+Facturación → paquetes VentaMotos (VerificarDisponibilidad, CalcularImpuestos, GenerarComprobantePDF) y OrdenServicio (RegistrarRepuestosUsados, RegistrarManoDeObra), ambos dependientes de Inventario (Stock/Costos), y Comisiones (CalcularComisionVendedor), dependiente de Empleados.
+Inventario (Stock/Costos) → paquetes GestionMotos (RegistrarMotoNueva, ConsultarDisponibilidad), GestionRepuestos (RegistrarRepuesto, DefinirStockMinimo) y Costos (ActualizarCostoInventario); GestionRepuestos y Costos dependen de GestionMotos.
+EIS → paquete Reportes, con ConsultarHistoricoVentas y GenerarIndicadores.
 
 Estructura interna (diagrama de estructura compuesta):
 
@@ -58,4 +62,7 @@ Integración en tiempo real con proveedores o fábrica.
 Aplicación móvil para vendedores o mecánicos (el frontend definido es web, en React).
 Facturación electrónica ante entidad fiscal (DIAN u otra autoridad tributaria).
 Soporte multi-sucursal con sincronización en la nube entre sedes (el despliegue actual contempla una sola sucursal cliente conectada a un único servidor).
+
 Nota
+
+Los 11 diagramas UML (`docs/diagramas/plantuml/`, imágenes en `docs/diagramas/img/`) son la fuente de verdad del alcance. Ante cualquier discrepancia entre este documento y un diagrama, prevalece el diagrama, y este texto debe corregirse para reflejarlo.
