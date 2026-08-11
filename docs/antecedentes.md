@@ -23,7 +23,7 @@ CDK Global es un DMS (Dealer Management System) usado por más de 15.000 concesi
 
 Fuente: [capterra.com/p/122988/CDK-Global](https://www.capterra.com/p/122988/CDK-Global/), [getapp.com CDK Global](https://www.getapp.com/retail-consumer-services-software/a/cdk-global/)
 
-## APP2 — Shift Industry (Ingrid)
+## APP2 — Shift Industry (Ingrith)
 
 Shift Industry es un DMS orientado específicamente a concesionarios y talleres de motocicletas, con foco fuerte en el área de servicio/taller.
 
