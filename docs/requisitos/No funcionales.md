@@ -22,4 +22,4 @@
 | Frontend | React | Interfaz ágil para vendedores y mecánicos |
 | Base de datos | PostgreSQL | Relacional, ideal para inventario con trazabilidad por VIN |
 | Despliegue | AWS (EC2 + RDS) | Permite acceso multi-sucursal en tiempo real |
-| Herramientas | Docker,
+| Herramientas | Docker | Contenerización del backend para un despliegue reproducible en AWS EC2 |

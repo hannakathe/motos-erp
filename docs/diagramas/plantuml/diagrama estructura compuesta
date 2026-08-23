@@ -1,0 +1,41 @@
+@startuml diagrama_estructuracompuesta
+
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam component {
+  BackgroundColor #F4F3EE
+  BorderColor #1c2431
+  ArrowColor #0F6E56
+  FontColor #1c2431
+  FontName Helvetica
+}
+skinparam packageStyle rectangle
+skinparam titleFontSize 16
+
+title Diagrama de Estructura Compuesta — Componente Facturación (ERP Andina Motors)
+
+component "Facturación" as Facturacion {
+  component "GeneradorComprobante" as Generador
+  component "ValidadorComision" as Validador
+  component "ConectorInventario" as ConectorInv
+  component "ConectorEmpleados" as ConectorEmp
+
+  Generador -right-> Validador : usa
+  Validador -down-> ConectorEmp : consultarComision()
+  Generador -down-> ConectorInv : verificarDisponibilidad()
+}
+
+component "Inventario" as Inventario
+component "Empleados" as Empleados
+
+ConectorInv -down-> Inventario : verificarDisponibilidad()
+ConectorInv -down-> Inventario : descontarRepuesto()
+ConectorEmp -down-> Empleados : consultarComision()
+ConectorEmp -down-> Empleados : asignarMecanico()
+
+note right of Facturacion
+  Entrada externa: solicitud de
+  facturación (venta o taller)
+end note
+
+@enduml
