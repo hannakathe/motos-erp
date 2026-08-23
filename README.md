@@ -33,6 +33,7 @@ Incluye las 6 épicas del ERP (Compras, Facturación, Stock/Costos, Activos Fijo
 | Antecedentes | Comparación de AndiMotors ERP contra 3 DMS del mercado (CDK Global, Shift Industry, Autologica Sky) | [docs/antecedentes.md](docs/antecedentes.md) |
 | Requisitos funcionales | Árbol de descomposición de requisitos (RF), 4 niveles | [docs/requisitos/funcionales.md](docs/requisitos/funcionales.md) |
 | Requisitos no funcionales | RNF de rendimiento, seguridad, escalabilidad, usabilidad, disponibilidad, y tecnologías seleccionadas | [docs/requisitos/No funcionales.md](docs/requisitos/No%20funcionales.md) |
+| Sprint 1 Planning | Planificación del Sprint 1 (épica Compras): sprint backlog, pruebas, DoD, roles y cronograma | [docs/sprint/sprint-1-planning.md](docs/sprint/sprint-1-planning.md) |
 
 ### Arquitectura (arc42)
 
