@@ -21,5 +21,7 @@
 | Backend | Java + Spring Boot | Robusto para lógica transaccional (facturación, control de stock) |
 | Frontend | React | Interfaz ágil para vendedores y mecánicos |
 | Base de datos | PostgreSQL | Relacional, ideal para inventario con trazabilidad por VIN |
-| Despliegue | AWS (EC2 + RDS) | Permite acceso multi-sucursal en tiempo real |
+| Despliegue | AWS (EC2 + RDS) — arquitectura propuesta, no desplegada actualmente | Permite acceso multi-sucursal en tiempo real, en un escenario de despliegue futuro |
 | Herramientas | Docker | Contenerización del backend para un despliegue reproducible en AWS EC2 |
+
+> Nota: AWS (EC2 + RDS) es la tecnología de despliegue seleccionada como propuesta arquitectónica del taller. El sistema no está desplegado en AWS; para desarrollo y demostración académica se ejecuta localmente. Ver [arc-42/07_deployment_view.md](../arc-42/07_deployment_view.md).

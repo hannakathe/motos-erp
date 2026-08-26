@@ -13,7 +13,7 @@
 | Criterio de Aceptación | Condición verificable, en formato Dado-Cuando-Entonces, que determina si una historia de usuario está correctamente implementada. |
 | MoSCoW | Método de priorización de historias de usuario en Must/Should/Could/Won't have, usado en [product-backlog.md](../product-backlog.md). |
 | Story Points (SP) | Unidad de estimación de esfuerzo relativo de una historia de usuario, en escala Fibonacci (ver [product-backlog.md](../product-backlog.md)). |
-| Sucursal | Sede física del concesionario; el modelo de despliegue actual contempla una sola sucursal cliente (ver [07. Vista de Despliegue](07_deployment_view.md)), aunque RNF-3 exige soportar varias. |
+| Sucursal | Sede física del concesionario; el modelo de despliegue **propuesto** (AWS, no desplegado) contempla una sola sucursal cliente (ver [07. Vista de Despliegue](07_deployment_view.md)), aunque RNF-3 exige soportar varias. |
 | C4 Model | Notación de diagramas de arquitectura de software en niveles (Contexto, Contenedores, Componentes, Código). |
 
 ## Módulos del sistema

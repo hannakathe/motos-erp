@@ -29,14 +29,23 @@
 - **Impacto**: alto — RNF-2 es una meta de calidad explícita y no tiene una estrategia arquitectónica que la respalde.
 - **Mitigación sugerida**: [POR DEFINIR]
 
-## R-04 — Despliegue de nodo único frente a metas de escalabilidad y disponibilidad
+## R-04 — Despliegue de nodo único (propuesto) frente a metas de escalabilidad y disponibilidad
 
 - **Tipo**: riesgo arquitectónico.
-- **Evidencia**: el [diagrama de despliegue](../diagramas/plantuml/diagrama_despliegue.plantuml) y `alcance.md` modelan explícitamente **una sola sucursal cliente conectada a un único servidor**, sin balanceo de carga, redundancia ni zonas de disponibilidad documentadas. Sin embargo, RNF-3 exige soportar múltiples sucursales consultando el mismo inventario en tiempo real, y RNF-5 exige 99% de uptime mensual.
+- **Evidencia**: el [diagrama de despliegue](../diagramas/plantuml/diagrama_despliegue.plantuml) (arquitectura **propuesta**, no desplegada) y `alcance.md` modelan explícitamente **una sola sucursal cliente conectada a un único servidor**, sin balanceo de carga, redundancia ni zonas de disponibilidad documentadas. Sin embargo, RNF-3 exige soportar múltiples sucursales consultando el mismo inventario en tiempo real, y RNF-5 exige 99% de uptime mensual. Esta tensión existe incluso a nivel de propuesta, antes de considerar cualquier despliegue real.
 - **Probabilidad**: alta (tensión ya presente entre lo modelado y lo requerido).
-- **Impacto**: alto si el sistema debe escalar a más de una sucursal o garantizar el uptime declarado sin cambios de infraestructura.
+- **Impacto**: alto si, en un eventual despliegue futuro, el sistema debe escalar a más de una sucursal o garantizar el uptime declarado sin cambios de infraestructura. No aplica al entorno local actual, que no tiene meta de uptime ni de multi-sucursal declarada.
 - **Mitigación sugerida**: [POR DEFINIR]
-- ⚠️ Posible inconsistencia entre el diagrama de despliegue/alcance (una sucursal) y RNF-3 (multi-sucursal).
+- ⚠️ Posible inconsistencia entre el diagrama de despliegue propuesto/alcance (una sucursal) y RNF-3 (multi-sucursal).
+
+## R-09 — Costos de infraestructura cloud
+
+- **Tipo**: riesgo de proyecto / económico.
+- **Descripción**: un despliegue real en AWS (según la arquitectura propuesta en [AD-07](09_architecture_decisions.md#ad-07--propuesta-de-despliegue-cloud-aws)) podría generar costos asociados al uso de servicios de cómputo (EC2), almacenamiento, base de datos (RDS), transferencia de datos y otros recursos.
+- **Evidencia**: `alcance.md` declara explícitamente que el proyecto es académico y no maneja un presupuesto monetario real; el "costo" del taller se mide en horas/persona del equipo, no en gasto de infraestructura.
+- **Probabilidad**: baja mientras el proyecto se mantenga en fase académica (el equipo ya decidió no desplegar en AWS); alta si en el futuro se decide materializar la propuesta sin planificación de costos.
+- **Impacto**: incremento innecesario del costo del proyecto académico si se desplegara la propuesta sin justificación real de negocio.
+- **Mitigación sugerida**: mantener la ejecución local durante el desarrollo y la demostración académica, documentando AWS únicamente como una propuesta teórica de despliegue (ver [07. Vista de Despliegue](07_deployment_view.md)) hasta que exista una necesidad real que justifique el gasto.
 
 ## R-05 — Componente ActivosFijos sin interfaces con otros componentes
 

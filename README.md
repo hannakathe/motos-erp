@@ -6,6 +6,21 @@ El proyecto nace del taller de **Arquitectura de Software para un Sistema ERP**:
 
 > El alcance completo, con la triple restricción (tiempo, costo, alcance) del taller, está en [docs/alcance.md](docs/alcance.md).
 
+## Estado del proyecto y del despliegue
+
+El proyecto se ejecuta **localmente** para fines de desarrollo y demostración académica. La arquitectura AWS presentada en la documentación (diagrama de despliegue, capítulo 7 de arc42) corresponde a una **propuesta teórica de despliegue futuro** y **no** a una infraestructura actualmente operativa. No existe una URL de producción, ni una instancia EC2, RDS u otro recurso AWS activo para este proyecto.
+
+| Entorno | Estado |
+|---|---|
+| Desarrollo local | Implementado |
+| Demostración local | Implementado |
+| AWS | Propuesto |
+| EC2 | Propuesto |
+| RDS | Propuesto |
+| Producción | No implementado |
+
+Detalle completo en [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md).
+
 ## Módulos del sistema
 
 | Módulo | Responsabilidad |
@@ -47,7 +62,7 @@ Documentación completa en [docs/arc-42/arc42-template-ES.md](docs/arc-42/arc42-
 | 4. Estrategia de Solución | Decisiones tecnológicas y estructurales de alto nivel | [docs/arc-42/04_solution_strategy.md](docs/arc-42/04_solution_strategy.md) |
 | 5. Vista de Bloques | Componentes, paquetes por módulo y vista lógica (clases/objetos) | [docs/arc-42/05_building_block_view.md](docs/arc-42/05_building_block_view.md) |
 | 6. Vista de Ejecución | Escenario de facturación, basado en la estructura interna del componente Facturación | [docs/arc-42/06_runtime_view.md](docs/arc-42/06_runtime_view.md) |
-| 7. Vista de Despliegue | Nodos físicos: cliente, servidor cloud y base de datos | [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md) |
+| 7. Vista de Despliegue | Estado actual (ejecución local) y arquitectura de despliegue AWS **propuesta** (no implementada) | [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md) |
 | 8. Conceptos Transversales | Seguridad, persistencia, comunicación entre módulos | [docs/arc-42/08_crosscutting_concepts.md](docs/arc-42/08_crosscutting_concepts.md) |
 | 9. Decisiones de Arquitectura | Decisiones documentadas e inferidas | [docs/arc-42/09_architecture_decisions.md](docs/arc-42/09_architecture_decisions.md) |
 | 10. Requisitos de Calidad | RNF en formato de escenario | [docs/arc-42/10_quality_requirements.md](docs/arc-42/10_quality_requirements.md) |
@@ -65,7 +80,7 @@ Fuente PlantUML en [`docs/diagramas/plantuml/`](docs/diagramas/plantuml), imáge
 | Clases | Modelo de dominio de Facturación: Cliente, Vendedor, ItemVendible, Moto, Repuesto, Factura, DetalleFactura, OrdenTaller, Mecanico | [.plantuml](docs/diagramas/plantuml/diagrama_clases.plantuml) | [.png](docs/diagramas/img/diagrama_clases.png) |
 | Objetos | Instancia de ejemplo: un cliente compra una moto a través de un vendedor, documentada en una factura | [.plantuml](docs/diagramas/plantuml/diagrama_objetos.plantuml) | [.png](docs/diagramas/img/diagrama_objetos.png) |
 | Componentes | Los 6 módulos del ERP (Inventario, Facturación, Compras, Empleados, EIS, ActivosFijos) y sus dependencias | [.plantuml](docs/diagramas/plantuml/diagrama_componentes.plantuml) | [.png](docs/diagramas/img/diagrama_componentes.png) |
-| Despliegue | Nodos físicos: Cliente-Sucursal (React), Servidor Cloud AWS EC2 (Spring Boot), Servidor BD AWS RDS (PostgreSQL) | [.plantuml](docs/diagramas/plantuml/diagrama_despliegue.plantuml) | [.png](docs/diagramas/img/diagrama_despliegue.png) |
+| Despliegue (arquitectura **propuesta**, no operativa) | Nodos propuestos: Cliente-Sucursal (React), Servidor Cloud AWS EC2 (Spring Boot), Servidor BD AWS RDS (PostgreSQL) — ver [estado del despliegue](#estado-del-proyecto-y-del-despliegue) | [.plantuml](docs/diagramas/plantuml/diagrama_despliegue.plantuml) | [.png](docs/diagramas/img/diagrama_despliegue.png) |
 | Estructura compuesta | Caja blanca del componente Facturación: GeneradorComprobante, ValidadorComision, ConectorInventario, ConectorEmpleados | [fuente](<docs/diagramas/plantuml/diagrama estructura compuesta>) | [.png](<docs/diagramas/img/Diagrama estructura compuesta.png>) |
 | Paquetes — Inventario | GestionMotos, GestionRepuestos, Costos | [.plantuml](docs/diagramas/plantuml/diagrama_paquetes_inventario.plantuml) | [.png](docs/diagramas/img/diagrama_paquetes_inventario.png) |
 | Paquetes — Facturación | VentaMotos, OrdenServicio, Comisiones | [.plantuml](docs/diagramas/plantuml/diagrama_paquetes_facturacion.plantuml) | [.png](docs/diagramas/img/diagrama_paquetes_facturacion.png) |
