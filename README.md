@@ -37,19 +37,24 @@ Incluye las 6 épicas del ERP (Compras, Facturación, Stock/Costos, Activos Fijo
 
 ### Arquitectura (arc42)
 
-Documentación completa en [docs/arc-42/arc42-template-ES.md](docs/arc-42/arc42-template-ES.md). Capítulos:
+Documentación completa en [docs/arc-42/arc42-template-ES.md](docs/arc-42/arc42-template-ES.md). Esqueleto arc42 de 12 capítulos:
 
 | Capítulo | Contenido | Enlace |
 |---|---|---|
 | 1. Introducción y Metas | Objetivo del ERP, requisitos de negocio y metas de calidad | [docs/arc-42/01_introduction_and_goals.md](docs/arc-42/01_introduction_and_goals.md) |
 | 2. Restricciones de la Arquitectura | Restricciones técnicas y organizativas (stack, equipo, tiempo) | [docs/arc-42/02_architecture_constraints.md](docs/arc-42/02_architecture_constraints.md) |
 | 3. Alcance y Contexto del Sistema | Actores y módulos que interactúan con el sistema | [docs/arc-42/03_system_scope_and_context.md](docs/arc-42/03_system_scope_and_context.md) |
+| 4. Estrategia de Solución | Decisiones tecnológicas y estructurales de alto nivel | [docs/arc-42/04_solution_strategy.md](docs/arc-42/04_solution_strategy.md) |
 | 5. Vista de Bloques | Componentes, paquetes por módulo y vista lógica (clases/objetos) | [docs/arc-42/05_building_block_view.md](docs/arc-42/05_building_block_view.md) |
 | 6. Vista de Ejecución | Escenario de facturación, basado en la estructura interna del componente Facturación | [docs/arc-42/06_runtime_view.md](docs/arc-42/06_runtime_view.md) |
 | 7. Vista de Despliegue | Nodos físicos: cliente, servidor cloud y base de datos | [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md) |
-| 10. Glosario | Términos clave del dominio | [docs/arc-42/10_glossary.md](docs/arc-42/10_glossary.md) |
+| 8. Conceptos Transversales | Seguridad, persistencia, comunicación entre módulos | [docs/arc-42/08_crosscutting_concepts.md](docs/arc-42/08_crosscutting_concepts.md) |
+| 9. Decisiones de Arquitectura | Decisiones documentadas e inferidas | [docs/arc-42/09_architecture_decisions.md](docs/arc-42/09_architecture_decisions.md) |
+| 10. Requisitos de Calidad | RNF en formato de escenario | [docs/arc-42/10_quality_requirements.md](docs/arc-42/10_quality_requirements.md) |
+| 11. Riesgos y Deuda Técnica | Riesgos e inconsistencias detectadas | [docs/arc-42/11_risks_and_technical_debt.md](docs/arc-42/11_risks_and_technical_debt.md) |
+| 12. Glosario | Términos clave del dominio | [docs/arc-42/12_glossary.md](docs/arc-42/12_glossary.md) |
 
-> Los capítulos 4 (Estrategia de solución), 8 (Conceptos transversales), 9 (Decisiones de diseño) y 11 (Riesgos y deuda técnica) no forman parte del alcance de este taller.
+> Los capítulos 1, 2, 3, 5, 6 y 7 fueron parte del alcance original del taller. Los capítulos 4, 8, 9, 10 y 11 se completaron para dejar el esqueleto arc42 completo; ver [matriz de cobertura](docs/arc-42/coverage.md) para el estado real de cada sección.
 
 ### Diagramas UML (11)
 

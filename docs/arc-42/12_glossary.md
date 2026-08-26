@@ -1,14 +1,19 @@
 [← Volver al índice](arc42-template-ES.md)
 
-# 10. Glosario
+# 12. Glosario
 
 ## Términos generales / metodología
 
 | Término | Definición |
 |---|---|
+| ERP | Enterprise Resource Planning — sistema de planificación de recursos empresariales; nombre de la categoría de producto a la que pertenece AndiMotors ERP (ver [README.md](../../README.md)). |
+| DMS | Dealer Management System — categoría de software de gestión para concesionarios, usada como referencia comparativa frente al ERP propio (ver [antecedentes.md](../antecedentes.md): CDK Global, Shift Industry, Autologica Sky). |
 | Épica | Historia de usuario de gran tamaño que agrupa funcionalidades de un mismo módulo (ej. "Módulo de Compras"). |
 | Historia de Usuario (HU) | Descripción breve de una funcionalidad desde la perspectiva de un rol, con el formato "Como &lt;rol&gt;, quiero &lt;acción&gt;, para que &lt;beneficio&gt;". |
 | Criterio de Aceptación | Condición verificable, en formato Dado-Cuando-Entonces, que determina si una historia de usuario está correctamente implementada. |
+| MoSCoW | Método de priorización de historias de usuario en Must/Should/Could/Won't have, usado en [product-backlog.md](../product-backlog.md). |
+| Story Points (SP) | Unidad de estimación de esfuerzo relativo de una historia de usuario, en escala Fibonacci (ver [product-backlog.md](../product-backlog.md)). |
+| Sucursal | Sede física del concesionario; el modelo de despliegue actual contempla una sola sucursal cliente (ver [07. Vista de Despliegue](07_deployment_view.md)), aunque RNF-3 exige soportar varias. |
 | C4 Model | Notación de diagramas de arquitectura de software en niveles (Contexto, Contenedores, Componentes, Código). |
 
 ## Módulos del sistema
@@ -41,4 +46,4 @@ Dominio de Facturación — ver [5.4 Vista Lógica](05_building_block_view.md#54
 | Mecánico | Rol responsable de atender órdenes de taller y registrar diagnósticos. |
 
 ---
-[← Anterior: Vista de Despliegue](07_deployment_view.md) · [Volver al índice](arc42-template-ES.md)
+[← Anterior: Riesgos y Deuda Técnica](11_risks_and_technical_debt.md) · [Volver al índice](arc42-template-ES.md)

@@ -33,4 +33,4 @@ Del [diagrama de despliegue](../diagramas/plantuml/diagrama_despliegue.plantuml)
 No hay sistemas externos (proveedores, fábrica, pasarelas de pago, autoridad tributaria) modelados en el diagrama de despliegue actual. Según [alcance.md](../alcance.md), quedan explícitamente fuera del alcance del taller: la integración en tiempo real con proveedores o fábrica, la facturación electrónica ante entidad fiscal, la aplicación móvil y el soporte multi-sucursal con sincronización en la nube entre sedes (el despliegue actual contempla una sola sucursal cliente conectada a un único servidor).
 
 ---
-[← Anterior: Restricciones de la Arquitectura](02_architecture_constraints.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Vista de Bloques →](05_building_block_view.md)
+[← Anterior: Restricciones de la Arquitectura](02_architecture_constraints.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Estrategia de Solución →](04_solution_strategy.md)

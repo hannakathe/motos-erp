@@ -30,4 +30,4 @@ Según [alcance.md](../alcance.md), este despliegue contempla una sola sucursal 
 [PENDIENTE: no hay diagrama ni documentación de despliegue a mayor detalle (por ejemplo, contenedores Docker específicos, balanceo de carga o zonas de disponibilidad) en el repositorio, más allá de que Docker está listado como herramienta de despliegue en [requisitos/No funcionales.md](<../requisitos/No funcionales.md>)].
 
 ---
-[← Anterior: Vista de Ejecución](06_runtime_view.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Glosario →](10_glossary.md)
+[← Anterior: Vista de Ejecución](06_runtime_view.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Conceptos Transversales →](08_crosscutting_concepts.md)
