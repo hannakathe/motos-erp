@@ -2,7 +2,7 @@
 
 ERP a medida para **Andina Motors**, un concesionario de motos: gestiona inventario de motos y repuestos, compras a fábrica/distribuidor, facturación de ventas y de taller, empleados (vendedores y mecánicos) y reportes gerenciales (EIS), además del control de activos fijos.
 
-El proyecto nace del taller de **Arquitectura de Software para un Sistema ERP**: gestión del backlog en Jira (épicas, historias de usuario, criterios de aceptación y priorización MoSCoW) y documentación de la arquitectura con la plantilla **arc42** y **11 diagramas UML** (clases, objetos, componentes, despliegue, estructura compuesta y 6 diagramas de paquetes, uno por módulo).
+El proyecto nace del taller de **Arquitectura de Software para un Sistema ERP**: gestión del backlog en Jira (épicas, historias de usuario, criterios de aceptación y priorización MoSCoW) y documentación de la arquitectura con la plantilla **arc42**, **11 diagramas UML** originales (clases, objetos, componentes, despliegue, estructura compuesta y 6 diagramas de paquetes, uno por módulo), **2 diagramas C4** (contexto y contenedores) y una **Vista 4+1** (lógica, procesos, desarrollo, física y escenarios) agregados en una iteración posterior — ver [`Vista de Procesos (4+1)/`](<Vista de Procesos (4+1)>).
 
 > El alcance completo, con la triple restricción (tiempo, costo, alcance) del taller, está en [docs/alcance.md](docs/alcance.md).
 
@@ -15,8 +15,13 @@ El proyecto se ejecuta **localmente** para fines de desarrollo y demostración a
 | Desarrollo local | Implementado |
 | Demostración local | Implementado |
 | AWS | Propuesto |
+| Azure (mencionado como alternativa en la Vista Física) | Propuesto |
 | EC2 | Propuesto |
 | RDS | Propuesto |
+| Load Balancer | Propuesto |
+| App móvil | Propuesta |
+| Integración DIAN (facturación electrónica) | Propuesta |
+| Integración con Proveedores (compras B2B) | Propuesta |
 | Producción | No implementado |
 
 Detalle completo en [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md).
@@ -58,9 +63,9 @@ Documentación completa en [docs/arc-42/arc42-template-ES.md](docs/arc-42/arc42-
 |---|---|---|
 | 1. Introducción y Metas | Objetivo del ERP, requisitos de negocio y metas de calidad | [docs/arc-42/01_introduction_and_goals.md](docs/arc-42/01_introduction_and_goals.md) |
 | 2. Restricciones de la Arquitectura | Restricciones técnicas y organizativas (stack, equipo, tiempo) | [docs/arc-42/02_architecture_constraints.md](docs/arc-42/02_architecture_constraints.md) |
-| 3. Alcance y Contexto del Sistema | Actores y módulos que interactúan con el sistema | [docs/arc-42/03_system_scope_and_context.md](docs/arc-42/03_system_scope_and_context.md) |
+| 3. Alcance y Contexto del Sistema | Actores y módulos que interactúan con el sistema, incluyendo el diagrama de contexto C4 y sistemas externos (DIAN, Proveedores) | [docs/arc-42/03_system_scope_and_context.md](docs/arc-42/03_system_scope_and_context.md) |
 | 4. Estrategia de Solución | Decisiones tecnológicas y estructurales de alto nivel | [docs/arc-42/04_solution_strategy.md](docs/arc-42/04_solution_strategy.md) |
-| 5. Vista de Bloques | Componentes, paquetes por módulo y vista lógica (clases/objetos) | [docs/arc-42/05_building_block_view.md](docs/arc-42/05_building_block_view.md) |
+| 5. Vista de Bloques | Componentes, paquetes por módulo, vista lógica (clases/objetos), diagramas C4 y Vista de Desarrollo en capas | [docs/arc-42/05_building_block_view.md](docs/arc-42/05_building_block_view.md) |
 | 6. Vista de Ejecución | Escenario de facturación, basado en la estructura interna del componente Facturación | [docs/arc-42/06_runtime_view.md](docs/arc-42/06_runtime_view.md) |
 | 7. Vista de Despliegue | Estado actual (ejecución local) y arquitectura de despliegue AWS **propuesta** (no implementada) | [docs/arc-42/07_deployment_view.md](docs/arc-42/07_deployment_view.md) |
 | 8. Conceptos Transversales | Seguridad, persistencia, comunicación entre módulos | [docs/arc-42/08_crosscutting_concepts.md](docs/arc-42/08_crosscutting_concepts.md) |
@@ -90,3 +95,26 @@ Fuente PlantUML en [`docs/diagramas/plantuml/`](docs/diagramas/plantuml), imáge
 | Paquetes — ActivosFijos | ControlActivos | [.plantuml](docs/diagramas/plantuml/diagrama_paquetes_activosfijos.plantuml) | [.png](docs/diagramas/img/diagrama_paquetes_activosfijos.png) |
 
 > Nota: el archivo fuente del diagrama de estructura compuesta se llama literalmente `diagrama estructura compuesta` (sin extensión `.plantuml`, con espacios), a diferencia de los demás que usan `snake_case.plantuml`. No se renombró para no modificar los archivos de diagramas.
+
+### Diagramas C4 (2)
+
+Agregados después de los 11 diagramas UML originales, como capa de contexto/contenedores dedicada.
+
+| Diagrama | Descripción | Fuente | Imagen |
+|---|---|---|---|
+| C4 — Contexto (Nivel 1) | Actores (Vendedor, Mecánico, Gerente/Administrador) y sistema externo Fábrica/Distribuidor | [.plantuml](docs/diagramas/plantuml/diagrama_c4_contexto.plantuml) | [.png](docs/diagramas/img/diagrama_c4_contexto.png) |
+| C4 — Contenedores (Nivel 2) | Aplicación Web (React), API Backend (Spring Boot/AWS EC2), Base de Datos (PostgreSQL/AWS RDS) | [.plantuml](docs/diagramas/plantuml/diagrama_c4_contenedores.plantuml) | [.png](docs/diagramas/img/diagrama_c4_contenedores.png) |
+
+### Vista de Procesos (4+1) — carpeta [`Vista de Procesos (4+1)/`](<Vista de Procesos (4+1)>)
+
+Agregada en una iteración posterior a los 11 diagramas UML y a los diagramas C4. Extiende el modelo con autenticación (`Usuario`), integración con DIAN (facturación electrónica) y con proveedores (compras B2B), y una arquitectura en capas explícita — ver el análisis completo, incluidas las inconsistencias frente a los diagramas originales, en [docs/arc-42/05_building_block_view.md](docs/arc-42/05_building_block_view.md#541-vista-lógica-actualizada-agregada-posteriormente) y en [docs/arc-42/11_risks_and_technical_debt.md](docs/arc-42/11_risks_and_technical_debt.md).
+
+| Vista | Contenido | Imagen |
+|---|---|---|
+| 1. Vista Lógica | Modelo de clases actualizado: `Usuario`, `Cliente`, `Proveedor`, `Compra`, `Vehiculo`, `Venta`, `DetalleVenta`, `Factura` (con `cufe`/DIAN), `Repuesto`, `OrdenServicio` | [.jpg](<Vista de Procesos (4+1)/1. vista logica.jpg>) |
+| 2. Vista de Procesos | Diagrama de secuencia: registrar venta, verificar disponibilidad, descontar stock, generar factura y enviar a DIAN | [.jpg](<Vista de Procesos (4+1)/2. vista de procesos.jpg>) |
+| 3. Vista de Desarrollo | Arquitectura en capas: Frontend (SPA), API (REST), Dominio, Persistencia, Infraestructura (ORM, Cliente DIAN) | [.jpg](<Vista de Procesos (4+1)/3. vista de desarrollo.jpg>) |
+| 4. Vista Física | Despliegue propuesto: navegador + app móvil → Load Balancer → Servidor de Aplicaciones → BD/Servidor de Reportes/DIAN/Proveedores, en "Proveedor Cloud (AWS/Azure)" | [.jpg](<Vista de Procesos (4+1)/4. vista fisica.jpg>) |
+| Vista de Escenarios | Casos de uso: Administrador, Cliente, Vendedor, Técnico, Jefe de Compras, Proveedor, DIAN | [.jpg](<Vista de Procesos (4+1)/Vista de escenarios.jpg>) |
+
+⚠️ Estos diagramas introducen elementos (facturación electrónica DIAN, app móvil, integración con proveedores) que `alcance.md` había declarado inicialmente fuera de alcance, y usan nombres distintos para los mismos roles/entidades de los diagramas originales (p. ej. `Moto`→`Vehiculo`, `Mecanico`→"Técnico"). Todo esto está documentado explícitamente como inconsistencia en [docs/arc-42/11_risks_and_technical_debt.md](docs/arc-42/11_risks_and_technical_debt.md) (riesgos R-10 a R-14), no oculto ni resuelto silenciosamente.

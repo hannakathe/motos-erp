@@ -2,7 +2,7 @@
 
 # 10. Requisitos de Calidad
 
-> Nota metodológica: esta sección no formaba parte del alcance original del taller (ver nota en [arc42-template-ES.md](arc42-template-ES.md)). Se reorganiza en formato de escenario de calidad (Fuente/Estímulo → Contexto → Respuesta esperada → Medida) la información ya existente en [requisitos/No funcionales.md](<../requisitos/No funcionales.md>). No se agregan atributos de calidad ni métricas que no estén en ese documento.
+> Nota metodológica: esta sección no formaba parte del alcance original del taller (ver nota en [arc42-template-ES.md](arc42-template-ES.md)). Se reorganiza en formato de escenario de calidad (Fuente/Estímulo → Contexto → Respuesta esperada → Medida) la información ya existente en [requisitos/No funcionales.md](<../requisitos/No funcionales.md>). Las métricas marcadas explícitamente como "**propuesta de esta revisión**" no están en ese documento — se agregan como arquitectura de calidad propuesta, a petición del equipo, y se distinguen tipográficamente de lo evidenciado en la fuente original.
 
 ## Árbol/resumen de metas de calidad
 
@@ -24,7 +24,7 @@ Ya presentado en [01. Introducción y Metas — 1.3](01_introduction_and_goals.m
 | Fuente/Estímulo | Un usuario del sistema intenta facturar una venta o cerrar una orden de servicio. |
 | Contexto | Cualquier momento de operación del sistema. |
 | Respuesta esperada | El sistema solo permite facturar ventas a usuarios con rol "Vendedor"; solo permite cerrar órdenes de servicio a usuarios con rol "Mecánico" o "Jefe de taller". |
-| Medida | [MÉTRICA POR DEFINIR — no se especifica una tasa de error tolerada ni el mecanismo de verificación de rol.] |
+| Medida | [MÉTRICA POR DEFINIR EN LA FUENTE ORIGINAL] — **propuesta de esta revisión**: 0% de operaciones de facturación o cierre de orden ejecutadas sin verificación previa de `Usuario.rol` en la capa `API Seguridad` (ver [AD-09](09_architecture_decisions.md#ad-09--autenticación-y-autorización-basada-en-la-entidad-usuario)); todo intento no autorizado responde con un código de error HTTP 4xx explícito, sin excepciones no controladas. |
 
 ## RNF-3 — Escalabilidad
 
@@ -33,7 +33,7 @@ Ya presentado en [01. Introducción y Metas — 1.3](01_introduction_and_goals.m
 | Fuente/Estímulo | Múltiples sucursales consultan disponibilidad de inventario simultáneamente (RF-1.3.1). |
 | Contexto | Operación con más de una sucursal del concesionario activa. |
 | Respuesta esperada | Todas las sucursales consultan el mismo inventario en tiempo real, sin inconsistencias. |
-| Medida | [MÉTRICA POR DEFINIR — no se especifica número de sucursales, usuarios concurrentes ni tiempo de sincronización tolerado. Nota: el despliegue actualmente modelado en el repositorio contempla una sola sucursal cliente, ver [11. Riesgos](11_risks_and_technical_debt.md).] |
+| Medida | [MÉTRICA POR DEFINIR EN LA FUENTE ORIGINAL] — **propuesta de esta revisión**: hasta 10 sucursales concurrentes, con propagación de un cambio de stock visible en todas las sucursales en menos de 2 segundos, apoyada en el Load Balancer y el Servidor de Aplicaciones único agregados en la Vista Física ([AD-12](09_architecture_decisions.md#ad-12--load-balancer-en-la-arquitectura-de-despliegue-propuesta)). Nota: tanto el diagrama de despliegue original como la Vista Física siguen modelando un único cliente/sucursal explícito, sin representar múltiples sucursales simultáneas — ver [11. Riesgos](11_risks_and_technical_debt.md#r-04--despliegue-de-nodo-único-propuesto-frente-a-metas-de-escalabilidad-y-disponibilidad). |
 
 ## RNF-4 — Usabilidad
 

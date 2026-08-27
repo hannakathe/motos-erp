@@ -2,7 +2,7 @@
 
 # 7. Vista de Despliegue
 
-> **Aviso importante**: el sistema **no está desplegado en ninguna infraestructura cloud**. No existe una instancia EC2, una base de datos RDS ni ninguna otra infraestructura AWS activa asociada a este proyecto. AWS aparece en este capítulo únicamente como **arquitectura de despliegue propuesta**, documentada con fines académicos (ver [09. Decisiones de Arquitectura — AD-07](09_architecture_decisions.md#ad-07--propuesta-de-despliegue-cloud-aws)). No se afirma en ningún punto de este documento que exista una URL de producción, pruebas realizadas sobre infraestructura AWS, ni costos de AWS incurridos.
+> **Aviso importante**: el sistema **no está desplegado en ninguna infraestructura cloud**. No existe una instancia EC2, una base de datos RDS, un Load Balancer, ni ninguna otra infraestructura AWS o Azure activa asociada a este proyecto. AWS (y, según la Vista Física agregada posteriormente, alternativamente Azure — ver [7.4](#74-vista-física-versión-extendida-agregada-posteriormente)) aparece en este capítulo únicamente como **arquitectura de despliegue propuesta**, documentada con fines académicos (ver [09. Decisiones de Arquitectura — AD-07](09_architecture_decisions.md#ad-07--propuesta-de-despliegue-cloud-aws)). No se afirma en ningún punto de este documento que exista una URL de producción, pruebas realizadas sobre infraestructura cloud, ni costos de nube incurridos.
 
 ## 7.1 Estado actual
 
@@ -24,6 +24,11 @@ La ejecución local permite demostrar:
 | Desarrollo local | Implementado |
 | Demostración local | Implementado |
 | AWS (EC2, RDS, infraestructura cloud en general) | Propuesto — no implementado |
+| Azure (alternativa mencionada en la Vista Física) | Propuesto — no implementado; ver ambigüedad en [R-12](11_risks_and_technical_debt.md#r-12--ambigüedad-de-proveedor-cloud-aws-vs-awsazure-entre-diagramas) |
+| Load Balancer | Propuesto — no implementado |
+| App móvil | Propuesta — no implementada |
+| Integración DIAN | Propuesta — no implementada |
+| Integración con Proveedores (Compras B2B) | Propuesta — no implementada |
 | Producción | No implementado |
 
 [NO EVIDENCIADO EN EL REPOSITORIO: no hay archivos de configuración, scripts de arranque, Dockerfile ni documentación operativa que describan paso a paso el entorno de desarrollo local (puertos, variables de entorno, comandos de ejecución). Esta tabla describe el estado declarado del proyecto, no un procedimiento verificado en el repositorio.]
@@ -100,9 +105,26 @@ Como propuesta conceptual, en un escenario de despliegue futuro podrían contemp
 
 [NO EVIDENCIADO EN EL REPOSITORIO: VPC y Security Groups no aparecen en el diagrama de despliegue ni en ningún documento fuente; se listan aquí como alternativas conceptuales de una arquitectura AWS típica, no como elementos ya decididos por el equipo.]
 
-## 7.4 Nivel 2
+## 7.4 Vista Física (versión extendida, agregada posteriormente)
 
-[POR DEFINIR — no hay diagrama ni documentación de despliegue a mayor detalle (por ejemplo, contenedores Docker específicos, balanceo de carga o zonas de disponibilidad) en el repositorio, más allá de que Docker está listado como herramienta de despliegue en [requisitos/No funcionales.md](<../requisitos/No%20funcionales.md>) — ver también [AD-05](09_architecture_decisions.md#ad-05--contenerización-del-backend-con-docker), sin evidencia de implementación.]
+El equipo agregó, después del diagrama de despliegue original, una **Vista Física** más detallada dentro de [`Vista de Procesos (4+1)/4. vista fisica.jpg`](<../../Vista de Procesos (4+1)/4. vista fisica.jpg>). Esta vista **resuelve gran parte del "Nivel 2" que antes estaba `[POR DEFINIR]`**, aunque sigue siendo una **propuesta de diseño, no una infraestructura desplegada** — se aplica el mismo aviso de la parte superior de este documento.
+
+![Vista Física](<../../Vista de Procesos (4+1)/4. vista fisica.jpg>)
+
+| Elemento propuesto | Descripción | Resuelve |
+|---|---|---|
+| Load Balancer | Recibe tráfico HTTPS del navegador y de la app móvil, y lo distribuye hacia el Servidor de Aplicaciones por HTTP interno. | [R-04](11_risks_and_technical_debt.md#r-04--despliegue-de-nodo-único-propuesto-frente-a-metas-de-escalabilidad-y-disponibilidad) (sin balanceo de carga documentado). |
+| App Móvil (Vendedores) | Cliente adicional al navegador web, mismo canal HTTPS hacia el Load Balancer. | Contradice `alcance.md` original (app móvil declarada fuera de alcance) — ver nota de evolución en [alcance.md](../alcance.md). |
+| Servidor de Reportes | Nodo separado del Servidor de Aplicaciones, conectado por HTTP interno; sin mapeo explícito a un módulo, pero es el candidato natural para EIS. | Vacío de infraestructura para EIS que no existía en el diagrama de despliegue original. |
+| Sistema Externo DIAN (Facturación Electrónica) | Conectado al Servidor de Aplicaciones por HTTPS (Web Service). | Ver [4.7](04_solution_strategy.md#47-integración-con-sistemas-externos-dian-y-proveedores). |
+| Sistema Proveedores (Compras B2B) | Conectado al Servidor de Aplicaciones por HTTPS (API). | Ídem; contradice `alcance.md` original (integración con proveedores/fábrica declarada fuera de alcance). |
+| "Proveedor Cloud (AWS/Azure)" | Envoltorio que agrupa Load Balancer, Servidor de Aplicaciones y Servidor de BD. | Ver ambigüedad AWS vs. AWS/Azure en [11. Riesgos — R-12](11_risks_and_technical_debt.md#r-12--ambigüedad-de-proveedor-cloud-aws-vs-awsazure-entre-diagramas). |
+
+Sigue **sin evidencia** en cualquiera de las dos versiones de diagrama de despliegue: contenedores Docker específicos, zonas de disponibilidad, estrategia de backup/recuperación, y el detalle de dimensionamiento (CPU/memoria/instancias) del Servidor de Aplicaciones o del Load Balancer.
+
+## 7.5 Nivel 3 (dimensionamiento y configuración de infraestructura)
+
+[POR DEFINIR — ni el diagrama de despliegue original ni la Vista Física especifican tipo de instancia, número de réplicas, política de autoescalado, zonas de disponibilidad, ni configuración concreta de contenedores. Docker sigue listado como herramienta en [requisitos/No funcionales.md](<../requisitos/No%20funcionales.md>) sin evidencia de implementación — ver [AD-05](09_architecture_decisions.md#ad-05--contenerización-del-backend-con-docker).]
 
 ---
 [← Anterior: Vista de Ejecución](06_runtime_view.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Conceptos Transversales →](08_crosscutting_concepts.md)

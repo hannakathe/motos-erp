@@ -11,15 +11,17 @@ Evidencia: RNF-2 en [requisitos/No funcionales.md](<../requisitos/No funcionales
 - Solo el rol **Vendedor** puede facturar ventas.
 - Solo **Mecánico** o **Jefe de taller** pueden cerrar órdenes de servicio.
 
-Este es un concepto transversal porque afecta tanto a Facturación (venta y orden de taller) como, potencialmente, a Empleados (gestión de roles). No hay evidencia de:
+Este es un concepto transversal porque afecta a todos los módulos con operaciones sensibles (Facturación, Empleados, Compras, ActivosFijos). **Resuelto a nivel de diseño propuesto** en esta revisión, con la Vista Lógica actualizada (clase `Usuario`: `id`, `rol`, `usuario`, `passwordHash`) y la Vista de Desarrollo (capa `API Seguridad`) — ver detalle completo en [4.5](04_solution_strategy.md#45-seguridad) y [AD-09](09_architecture_decisions.md#ad-09--autenticación-y-autorización-basada-en-la-entidad-usuario).
 
-- Mecanismo de autenticación (login, tokens, sesiones). [POR DEFINIR]
-- Mecanismo técnico de autorización (middleware, anotaciones de seguridad, políticas). [POR DEFINIR]
-- Modelo de usuarios/roles como entidad del sistema — el diagrama de clases no incluye una clase `Usuario` ni `Rol`; los roles Vendedor y Mecánico existen como clases de dominio (`Vendedor`, `Mecanico`), no como perfiles de acceso al sistema. [POR DEFINIR si son la misma entidad o entidades distintas.]
+Sigue sin evidencia (ni en el diagrama de clases original ni en la Vista Lógica nueva):
+
+- Protocolo de autenticación concreto (JWT, sesiones de servidor, OAuth2). [POR DEFINIR]
+- Algoritmo de hashing usado para `passwordHash` (bcrypt, PBKDF2, etc.). [POR DEFINIR]
+- Relación explícita entre `Usuario` (nueva) y `Vendedor`/`Mecanico` (clases de dominio del diagrama original) — [POR DEFINIR si `Usuario` es una entidad separada vinculada a `Vendedor`/`Mecanico`, o si los reemplaza como el perfil de acceso].
 
 ## 8.2 Persistencia
 
-Base de datos relacional única (PostgreSQL — AndinaMotorsDB), compartida por todos los módulos, según el [diagrama de despliegue](../diagramas/plantuml/diagrama_despliegue.plantuml). No hay evidencia de: esquema de tablas, ORM/framework de persistencia específico, estrategia de migraciones, ni particionamiento de datos por módulo o por sucursal. [POR DEFINIR]
+Base de datos relacional única (PostgreSQL — AndinaMotorsDB), compartida por todos los módulos, según el [diagrama de despliegue](../diagramas/plantuml/diagrama_despliegue.plantuml). La Vista de Desarrollo agrega un patrón **Repository** explícito (`Repositorio Ventas`, `Repositorio Compras`, `Repositorio Inventario`, sobre un `ORM` en la capa de Infraestructura) — ver [5.2.1](05_building_block_view.md#521-vista-de-desarrollo--arquitectura-en-capas). Sigue sin evidencia: esquema de tablas, framework ORM concreto (JPA/Hibernate u otro), estrategia de migraciones, ni particionamiento de datos por módulo o por sucursal. [POR DEFINIR]
 
 ## 8.3 Comunicación entre módulos
 
@@ -69,6 +71,15 @@ Los diagramas de paquetes (sección [5.2](05_building_block_view.md#52-caja-blan
 ## 8.9 Manejo de identidad de entidades de dominio
 
 **Inferencia**: el sistema usa identificadores de negocio explícitos para trazabilidad individual, no solo conteo por cantidad — evidenciado por el atributo `chasis` en la clase `Moto` ([diagrama de clases](../diagramas/plantuml/diagrama_clases.plantuml)) y por RF-1.1.1 ("Capturar número de VIN/chasis... necesario para trazabilidad individual"). Este concepto de trazabilidad por identificador único es transversal a Inventario, Facturación (`DetalleFactura` referencia una `Moto` específica) y Compras (RF-3.2.1 valida unidades recibidas contra la orden).
+
+## 8.10 Integración con sistemas externos
+
+**Nuevo en esta revisión**, a partir de la Vista Física, la Vista de Procesos y la Vista de Escenarios:
+
+- **DIAN** (facturación electrónica): integración vía un `Cliente DIAN (SOAP/REST)` en la capa de Infraestructura, invocado por el `Servicio Facturación`, con llamada modelada como **asíncrona** en la Vista de Procesos.
+- **Proveedores** (compras B2B): integración HTTPS (API) modelada solo en la Vista Física, sin componente de infraestructura equivalente dibujado en la Vista de Desarrollo (no hay `Cliente Proveedores` junto al `Cliente DIAN`). [POR DEFINIR el mecanismo de integración con proveedores a nivel de capa de Infraestructura.]
+
+Ambas integraciones son transversales porque afectan Facturación (DIAN) y Compras (Proveedores), y ambas son **propuestas de diseño sin implementación**, y contradicen el alcance declarado originalmente en `alcance.md` (ver [4.7](04_solution_strategy.md#47-integración-con-sistemas-externos-dian-y-proveedores) y [11. Riesgos — R-11](11_risks_and_technical_debt.md#r-11--integración-con-dian-y-proveedores-modelada-en-diagramas-nuevos-pero-ausente-en-los-diagramas-originales)).
 
 ---
 [← Anterior: Vista de Despliegue](07_deployment_view.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Decisiones de Arquitectura →](09_architecture_decisions.md)
