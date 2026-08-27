@@ -1,0 +1,23 @@
+@startuml diagrama_c4_contexto
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama C4 - Nivel 1 (Contexto) - AndiMotors ERP
+
+Person(vendedor, "Vendedor", "Registra ventas de motos, atiende clientes y consulta stock")
+Person(mecanico, "Mecánico", "Ejecuta órdenes de servicio de taller")
+Person(gerente, "Gerente / Administrador", "Consulta reportes gerenciales (EIS) y gestiona activos fijos")
+
+System(andimotors, "AndiMotors ERP", "Gestiona inventario de motos y repuestos, compras, facturación (ventas y taller), empleados, reportes gerenciales y activos fijos")
+
+System_Ext(fabrica, "Fábrica / Distribuidor", "Proveedor externo de motos y repuestos")
+
+Rel(vendedor, andimotors, "Registra ventas, consulta inventario y clientes")
+Rel(mecanico, andimotors, "Gestiona órdenes de taller asignadas")
+Rel(gerente, andimotors, "Consulta reportes e indicadores, administra activos fijos")
+
+Rel(andimotors, fabrica, "Genera y envía pedidos de compra")
+Rel(fabrica, andimotors, "Despacha mercancía / confirma pedidos")
+
+@enduml

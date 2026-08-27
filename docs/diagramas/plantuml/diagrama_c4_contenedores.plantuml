@@ -1,0 +1,28 @@
+@startuml diagrama_c4_contenedores
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama C4 - Nivel 2 (Contenedores) - AndiMotors ERP
+
+Person(vendedor, "Vendedor", "Registra ventas y consulta stock")
+Person(mecanico, "Mecánico", "ejecuta órdenes de taller asignadas")
+Person(gerente, "Gerente / Administrador", "Consulta reportes y gestiona activos fijos")
+
+System_Ext(fabrica, "Fábrica / Distribuidor", "Proveedor externo de motos y repuestos")
+
+System_Boundary(andimotors, "AndiMotors ERP") {
+    Container(spa, "Aplicación Web (Cliente-Sucursal)", "React", "Interfaz de usuario para vendedores, mecánicos y gerentes")
+    Container(api, "API Backend", "Spring Boot (AWS EC2)", "Expone la lógica de negocio de los módulos: Inventario, Facturación, Compras, Empleados, EIS y Activos Fijos")
+    ContainerDb(db, "Base de Datos", "PostgreSQL (AWS RDS)", "Almacena motos, repuestos, facturas, órdenes de taller, empleados y activos fijos")
+}
+
+Rel(vendedor, spa, "Usa", "HTTPS")
+Rel(mecanico, spa, "Usa", "HTTPS")
+Rel(gerente, spa, "Usa", "HTTPS")
+
+Rel(spa, api, "Hace peticiones a", "JSON/HTTPS")
+Rel(api, db, "Lee y escribe", "JDBC/SQL")
+Rel(api, fabrica, "Envía pedidos de compra a", "HTTPS/API o manual")
+
+@enduml
