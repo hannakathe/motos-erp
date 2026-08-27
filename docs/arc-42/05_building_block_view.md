@@ -138,4 +138,4 @@ El diagrama de objetos ilustra una instancia concreta de este modelo: un cliente
 *(No aplica para el alcance de este taller — se documentaría aquí el desglose interno de cada paquete en clases de implementación, si el proyecto avanzara a ese nivel de detalle.)*
 
 ---
-[← Anterior: Alcance y Contexto del Sistema](03_system_scope_and_context.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Vista de Ejecución →](06_runtime_view.md)
+[← Anterior: Estrategia de Solución](04_solution_strategy.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Vista de Ejecución →](06_runtime_view.md)

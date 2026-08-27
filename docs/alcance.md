@@ -27,6 +27,8 @@ Backend: API REST con Spring Boot, desplegado en servidor cloud (AWS EC2).
 Base de datos: PostgreSQL (AndinaMotorsDB), en AWS RDS.
 Comunicación: HTTPS entre cliente y backend, TCP/5432 entre backend y base de datos.
 
+Nota: "modelado" y "desplegado" aquí describen lo representado en el diagrama de despliegue como arquitectura propuesta, no una infraestructura AWS actualmente operativa. Para el desarrollo y la demostración académica, el sistema se ejecuta localmente; no se realiza un despliegue real en AWS porque implicaría costos y complejidad de infraestructura no necesarios para los objetivos del taller. Ver detalle en [arc-42/07_deployment_view.md](arc-42/07_deployment_view.md).
+
 Entidades del dominio (diagrama de clases y objetos):
 
 Cliente, Vendedor, Mecanico — actores que interactúan con el sistema.

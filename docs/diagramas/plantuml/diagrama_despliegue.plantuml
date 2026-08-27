@@ -1,4 +1,5 @@
 @startuml
+title Diagrama de Despliegue — Arquitectura Propuesta (Teórica, No Desplegada)
 node "Cliente - Sucursal" as CLIENTE {
   [Frontend React]
 }
