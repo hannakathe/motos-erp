@@ -2,6 +2,15 @@
 
 Product Backlog del ERP para el concesionario de motos Andina Motors, con 22 historias de usuario distribuidas en las 6 épicas del producto (Inventario, Facturación, Compras, Empleados, EIS y Activos Fijos), estimadas en Story Points (Fibonacci) y priorizadas con dos métodos: **MoSCoW** y **Matriz Valor de Negocio vs. Esfuerzo**.
 
+> **Nota de evolución (2026-09-01).** Este documento refleja el corte inicial de 22 HU y
+> su priorización. El backlog vigente en Jira (proyecto **SCRUM**) creció a 54 historias
+> con códigos por módulo (HU-01…HU-09 Compras, HU-F01…HU-F09, HU-S01…HU-S09,
+> HU-A01…HU-A09, HU-E01…HU-E09, HU-EIS01…HU-EIS09). El detalle funcional actualizado y la
+> correspondencia entre ambos esquemas están en
+> [requisitos/funcionales.md](requisitos/funcionales.md); los no funcionales, en
+> [requisitos/No funcionales.md](<requisitos/No funcionales.md>). La priorización MoSCoW y
+> Valor/Esfuerzo de las HU nuevas aún no se ha rehecho aquí.
+
 ## 1. Product Backlog completo
 
 | ID | Módulo (Épica) | Historia de Usuario | SP | MoSCoW |
