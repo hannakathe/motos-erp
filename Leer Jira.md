@@ -4,7 +4,7 @@
 
 Visualizar el backlog completo, historias de usuario, criterios de aceptación y Sprint 1 del proyecto Andina Motors ERP:
 
-https://marlondelga43.atlassian.net/jira/software/projects/SCRUM/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiYzRmMDdhMjdjMmQwNDJlNGJhYWY3NTQ3NWZlZjc3ZmIiLCJwIjoiaiJ9
+https://marlondelga43.atlassian.net/jira/software/projects/SCRUM/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiMGVkOWE0NWVlMzNiNGY1YjhmZmI5ZmM3YTE1ZDhkZWYiLCJwIjoiaiJ9
 
 ## Capturas
 
