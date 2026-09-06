@@ -1,0 +1,58 @@
+@startuml diagrama_secuencia_recepcion
+' Vista de Ejecucion (arc42 seccion 6.5) - Escenario "Validar recepcion de un pedido"
+' RF-3.6 / HU-15. Implementado en com.andimotors.compras.recepcion (Java + Spring Boot).
+' PedidoContratoPort y RecepcionPedidoPort son puertos del contrato temporal
+' (arc42 5.7): hoy los resuelve un adaptador mock en memoria; con HU-12 los
+' resolvera un adaptador JPA sobre PostgreSQL sin cambiar esta secuencia.
+
+title HU-15 - Validar recepcion de un pedido (RF-3.6)
+
+actor "Encargado de bodega" as Bodega
+participant "RecepcionController\n(API REST)" as API
+participant "ValidarRecepcionService\n(Dominio)" as SVC
+participant "ComparadorRecepcion\n(Dominio - logica pura)" as CMP
+participant "PedidoContratoPort" as PPORT
+participant "RecepcionPedidoPort" as RPORT
+database "BD / almacen de pedidos" as DB
+
+== Pantalla de seleccion ==
+
+Bodega -> API : GET /api/compras/recepciones/pedidos
+API -> SVC : consultarPedidosPorRecibir()
+SVC -> PPORT : listarPedidosPorEstado(PENDIENTE, APROBADO)
+PPORT -> DB : consulta pedidos por estado
+DB --> PPORT : pedidos
+PPORT --> SVC : List<PedidoContrato>
+SVC --> API : pedidos por recibir
+API --> Bodega : 200 lista de pedidos
+
+== Registrar y validar la recepcion ==
+
+Bodega -> API : POST /api/compras/recepciones\n{ pedidoId, lineas[] }
+API -> SVC : registrarRecepcion(RegistroRecepcion)
+SVC -> PPORT : obtenerPedido(pedidoId)
+PPORT -> DB : consulta pedido + items
+DB --> PPORT : pedido
+PPORT --> SVC : PedidoContrato
+
+alt pedido no existe
+    SVC --> API : PedidoNoEncontradoException
+    API --> Bodega : 404
+else estado no es PENDIENTE ni APROBADO
+    SVC --> API : EstadoPedidoNoRecepcionableException
+    API --> Bodega : 409
+else cantidades negativas / registro incompleto / linea ajena
+    SVC --> API : RecepcionException (validacion)
+    API --> Bodega : 400
+else datos validos
+    SVC -> CMP : comparar(lineasPedido, cantidadesRecibidas)
+    CMP --> SVC : ResultadoComparacion\n(por linea: COMPLETO/FALTANTE/SOBRANTE + global)
+    SVC -> RPORT : aplicarResultadoRecepcion(pedidoId, nuevoEstado, cantidadesRecibidas)
+    RPORT -> DB : actualiza estado + cantidades recibidas (atomico, RNF-6)
+    DB --> RPORT : ok
+    RPORT --> SVC : ok
+    SVC --> API : ResultadoRecepcion
+    API --> Bodega : 200 (RECIBIDO o RECIBIDO_CON_DIFERENCIAS\n+ detalle de faltantes/sobrantes)
+end
+
+@enduml

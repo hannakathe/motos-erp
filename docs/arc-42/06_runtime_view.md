@@ -50,5 +50,74 @@ Diferencias frente al escenario 6.1 (Facturar venta de moto, basado en el diagra
 
 Este escenario, igual que el resto de esta sección, describe una **arquitectura propuesta a nivel de diseño**; no hay evidencia de una implementación en ejecución de este flujo.
 
+## 6.5 Escenario: Validar recepción de un pedido (RF-3.6 / HU-15)
+
+A diferencia de 6.1–6.4, **este escenario sí está implementado** (Java + Spring Boot, paquete
+`com.andimotors.compras.recepcion`) y tiene diagrama de secuencia dedicado:
+[`diagrama_secuencia_recepcion.plantuml`](../diagramas/plantuml/diagrama_secuencia_recepcion.plantuml).
+Cubre el criterio de aceptación de HU-15: *"cuando el encargado de bodega registra las unidades
+recibidas, el sistema las compara contra lo solicitado y señala faltantes o discrepancias"*.
+
+Los participantes `PedidoContratoPort` y `RecepcionPedidoPort` son **puertos del contrato
+temporal** (ver [5.7](05_building_block_view.md#57-estado-de-implementación-y-contrato-temporal-hu-12hu-15));
+hoy los resuelve un adaptador mock en memoria y, al integrar HU-12, los resolverá un adaptador
+JPA sobre la BD PostgreSQL sin cambiar esta secuencia.
+
+```mermaid
+sequenceDiagram
+    actor Bodega as Encargado de bodega
+    participant API as RecepcionController<br/>(API REST)
+    participant SVC as ValidarRecepcionService<br/>(Dominio)
+    participant CMP as ComparadorRecepcion<br/>(Dominio - lógica pura)
+    participant PPORT as PedidoContratoPort
+    participant RPORT as RecepcionPedidoPort
+    participant DB as BD / almacén de pedidos
+
+    Bodega->>API: GET /api/compras/recepciones/pedidos
+    API->>SVC: consultarPedidosPorRecibir()
+    SVC->>PPORT: listarPedidosPorEstado(PENDIENTE, APROBADO)
+    PPORT->>DB: consulta pedidos por estado
+    DB-->>PPORT: pedidos
+    PPORT-->>SVC: List<PedidoContrato>
+    SVC-->>API: pedidos por recibir
+    API-->>Bodega: 200 lista de pedidos
+
+    Bodega->>API: POST /api/compras/recepciones {pedidoId, lineas[]}
+    API->>SVC: registrarRecepcion(RegistroRecepcion)
+    SVC->>PPORT: obtenerPedido(pedidoId)
+    PPORT->>DB: consulta pedido + ítems
+    DB-->>PPORT: pedido
+    PPORT-->>SVC: PedidoContrato
+
+    alt pedido no existe
+        SVC-->>API: PedidoNoEncontradoException
+        API-->>Bodega: 404
+    else estado no es PENDIENTE ni APROBADO
+        SVC-->>API: EstadoPedidoNoRecepcionableException
+        API-->>Bodega: 409
+    else cantidades negativas / registro incompleto / línea ajena
+        SVC-->>API: RecepcionException (validación)
+        API-->>Bodega: 400
+    else datos válidos
+        SVC->>CMP: comparar(lineasPedido, cantidadesRecibidas)
+        CMP-->>SVC: ResultadoComparacion<br/>(por línea: COMPLETO/FALTANTE/SOBRANTE + global)
+        SVC->>RPORT: aplicarResultadoRecepcion(pedidoId, nuevoEstado, cantidadesRecibidas)
+        RPORT->>DB: actualiza estado + cantidades recibidas (atómico, RNF-6)
+        DB-->>RPORT: ok
+        RPORT-->>SVC: ok
+        SVC-->>API: ResultadoRecepcion
+        API-->>Bodega: 200 (RECIBIDO o RECIBIDO_CON_DIFERENCIAS + detalle de faltantes/sobrantes)
+    end
+```
+
+### Reglas aplicadas en el flujo
+
+| Paso | Regla |
+|---|---|
+| `obtenerPedido` | El pedido debe existir (→ 404) y estar `PENDIENTE`/`APROBADO` (→ 409). |
+| Validación de entrada | Cantidades recibidas ≥ 0; el registro cubre cada línea del pedido exactamente una vez (→ 400). |
+| `comparar` | Por línea: `recibida − solicitada` ⇒ `COMPLETO` (0), `FALTANTE` (<0), `SOBRANTE` (>0). |
+| `aplicarResultadoRecepcion` | Global `COMPLETA` ⇒ estado `RECIBIDO`; `CON_DIFERENCIAS` ⇒ `RECIBIDO_CON_DIFERENCIAS`. Cambio de estado + cantidades en una sola operación atómica (RNF-6). |
+
 ---
 [← Anterior: Vista de Bloques](05_building_block_view.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Vista de Despliegue →](07_deployment_view.md)

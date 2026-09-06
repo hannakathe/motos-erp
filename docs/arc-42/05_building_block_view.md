@@ -84,8 +84,8 @@ Cada módulo se descompone en paquetes con sus clases (casos de uso), documentad
 
 ![Paquetes — Compras](../diagramas/img/diagrama_paquetes_compras.png)
 
-- **PedidosFabrica**: `SeleccionarModelosYCantidades`, `RegistrarFechaEntrega` (depende de EIS).
-- **RecepcionPedidos**: `ValidarUnidadesContraOrden` (depende de PedidosFabrica).
+- **PedidosFabrica**: `SeleccionarModelosYCantidades`, `RegistrarFechaEntrega` (depende de EIS). *(HU-12/13/14 — en construcción; ver [5.7](#57-estado-de-implementación-y-contrato-temporal-hu-12hu-15).)*
+- **RecepcionPedidos**: `ValidarUnidadesContraOrden` (depende de PedidosFabrica). **Implementado en HU-15** — el detalle de este bloque está en [5.6](#56-caja-blanca-del-componente-recepción-de-pedidos-hu-15).
 
 ### Empleados
 
@@ -182,6 +182,93 @@ El equipo agregó, después del diagrama de clases original, una segunda Vista L
 ## 5.5 Nivel 3
 
 *(No aplica para el alcance de este taller — se documentaría aquí el desglose interno de cada paquete en clases de implementación, si el proyecto avanzara a ese nivel de detalle.)*
+
+## 5.6 Caja blanca del componente Recepción de Pedidos (HU-15)
+
+Primer componente del proyecto con **código implementado** (Java + Spring Boot). Realiza el
+paquete `RecepcionPedidos` de [5.2](#52-caja-blanca-por-componente-nivel-2--diagramas-de-paquetes)
+y cubre RF-3.6 / RF-3.6.1 / RF-3.6.2 (validar unidades contra la orden, registrar faltantes y
+sobrantes). Código en `src/main/java/com/andimotors/compras/recepcion/`.
+
+### 5.6.1 Propósito y responsabilidad
+
+Dado un pedido que llega a bodega, registrar las unidades recibidas por ítem, compararlas contra
+lo solicitado en la orden de compra, clasificar cada línea como **completo / faltante / sobrante**
+y actualizar el estado del pedido (`RECIBIDO` o `RECIBIDO_CON_DIFERENCIAS`).
+
+### 5.6.2 Estructura interna (arquitectura en capas — ver [5.2.1](#521-vista-de-desarrollo--arquitectura-en-capas))
+
+| Capa | Elemento | Archivo | Responsabilidad (SRP) |
+|---|---|---|---|
+| API (REST) | `RecepcionController` | `recepcion/api/RecepcionController.java` | Expone `GET /api/compras/recepciones/pedidos`, `GET .../pedidos/{id}`, `POST .../recepciones`. Solo enruta. |
+| API (REST) | `RecepcionApiMapper` | `recepcion/api/RecepcionApiMapper.java` | Traduce DTO ↔ dominio. |
+| API (REST) | `RecepcionExceptionHandler` | `recepcion/api/RecepcionExceptionHandler.java` | Traduce excepciones de dominio a HTTP 400/404/409. |
+| Dominio | `ValidarRecepcionService` | `recepcion/dominio/ValidarRecepcionService.java` | Orquesta el caso de uso: carga pedido, valida precondiciones, delega comparación, persiste resultado. |
+| Dominio | `ComparadorRecepcion` | `recepcion/dominio/ComparadorRecepcion.java` | **Lógica pura** de comparación solicitado vs. recibido. Sin dependencias. |
+| Dominio | `ResultadoRecepcion`, `ResultadoComparacion`, `LineaRecepcionResultado`, `TipoDiferencia`, `ResultadoGlobalRecepcion` | `recepcion/dominio/` | Value objects del resultado. |
+| Dominio | `excepcion/*` | `recepcion/dominio/excepcion/` | `PedidoNoEncontradoException` (404), `EstadoPedidoNoRecepcionableException` (409), `CantidadRecibidaInvalidaException`, `LineaDesconocidaException`, `RegistroRecepcionIncompletoException` (400). |
+| Persistencia | *(ninguna propia)* | — | Se accede al pedido a través de los puertos del contrato (ver 5.7). La persistencia real llega con HU-12. |
+
+### 5.6.3 Interfaces (puertos) — DIP
+
+`ValidarRecepcionService` **no depende** de ninguna implementación concreta: depende de dos
+interfaces del paquete `com.andimotors.compras.contrato` e inyecta Spring la implementación:
+
+| Puerto | Operación usada por HU-15 |
+|---|---|
+| `PedidoContratoPort` | `obtenerPedido(id)`, `listarPedidosPorEstado(PENDIENTE, APROBADO)` |
+| `RecepcionPedidoPort` | `aplicarResultadoRecepcion(id, nuevoEstado, cantidadesRecibidas)` (atómico — RNF-6) |
+
+### 5.6.4 Reglas de negocio / validaciones
+
+- El pedido debe existir → si no, 404.
+- El pedido debe estar en estado `PENDIENTE` o `APROBADO` → si no, 409.
+- Cada cantidad recibida debe ser ≥ 0 → si no, 400.
+- El registro debe cubrir **exactamente una vez** cada línea del pedido (sin líneas ajenas, sin líneas repetidas, sin líneas faltantes) → si no, 400.
+- `diferencia = recibida − solicitada`: `0` → COMPLETO, `< 0` → FALTANTE, `> 0` → SOBRANTE.
+- Resultado global: todas COMPLETO → `RECIBIDO`; alguna con diferencia → `RECIBIDO_CON_DIFERENCIAS`.
+
+### 5.6.5 Fuera del alcance de HU-15 (siguiente iteración)
+
+- RF-3.6.3 "generar el ingreso a inventario de lo recibido conforme" — requiere el módulo Inventario (`RegistrarMovimiento` / entrada por compra), aún sin construir.
+- Aprobación de la orden (RF-3.5 / HU-04) — otra HU.
+
+## 5.7 Estado de implementación y contrato temporal (HU-12↔HU-15)
+
+**HU-15 se implementó antes que HU-12/13/14** (desarrollo en paralelo). Para no bloquearse, HU-15
+programa contra un **contrato explícito** en `com.andimotors.compras.contrato` (interfaces +
+DTOs de frontera), con una implementación mock en memoria (`contrato/mock/`) marcada
+`MOCK — reemplazar cuando HU-12/13/14 estén integradas`. Documentación del contrato:
+`src/main/java/com/andimotors/compras/contrato/README-MOCK.md`.
+
+### 5.7.1 Qué define el contrato
+
+| Elemento | Tipo | Representa |
+|---|---|---|
+| `EstadoPedido` | enum | `PENDIENTE, APROBADO, RECIBIDO, RECIBIDO_CON_DIFERENCIAS, CANCELADO`. El valor `RECIBIDO_CON_DIFERENCIAS` lo **agrega HU-15**. |
+| `PedidoContrato` | record | Orden de compra: `id, proveedorId, estado, fechaEstimadaEntrega (HU-14), lineas[]`. |
+| `LineaPedidoContrato` | record | Ítem: `itemId, productoId, productoNombre, cantidadSolicitada`. |
+| `HistoricoVentasContrato` | record | Resultado de `EIS.consultarHistoricoVentas()` (HU-13). |
+| `PedidoContratoPort` | interface | Consulta de pedidos. |
+| `RecepcionPedidoPort` | interface | Persistir el resultado de la recepción. |
+| `PlaneacionPedidoPort` | interface | Registrar fecha estimada de entrega (HU-14). |
+| `HistoricoVentasPort` | interface | Consultar histórico de ventas (HU-13). |
+
+### 5.7.2 Checklist de integración (Tarea C — al mergear HU-12/13/14 reales)
+
+Verificar y ajustar, **solo dentro de `com.andimotors.compras.contrato`** (idealmente un nuevo
+`contrato/jpa/` con `@Profile("jpa")`), sin tocar `com.andimotors.compras.recepcion`:
+
+- [ ] **Enum de estados**: HU-12 real usa los valores exactos de `EstadoPedido` (el código transitorio de HU-12 usaba minúsculas `pendiente/aprobado/recibido/cancelado`). Añadir `RECIBIDO_CON_DIFERENCIAS` en el modelo real o mapear en el adaptador.
+- [ ] **Nombres de campos** `PedidoContrato` ↔ entidad real: `id`↔`_id`/`id`, `proveedorId`↔`proveedor`, `lineas`↔`detalles`, `fechaEstimadaEntrega`↔ (campo nuevo de HU-14, confirmar nombre).
+- [ ] **Nombres de campos** `LineaPedidoContrato` ↔ `DetallePedido`/entidad real: `itemId`↔`_id`/`id`, `productoId`↔`producto`, `productoNombre`↔`producto.nombre` (¿viene poblado?), `cantidadSolicitada`↔`cantidad`.
+- [ ] **Tipos de id**: el contrato usa `Long`; el código transitorio de HU-12 usaba `ObjectId`/`String`. Definir el tipo real y ajustar el contrato (`Long` → `String`/`UUID`) en un único sitio.
+- [ ] **Rutas de endpoints**: si HU-12 expone `GET /api/pedidos/:id`, el adaptador real lo consume; los endpoints de HU-15 (`/api/compras/recepciones/**`) no cambian.
+- [ ] **Persistencia de cantidad recibida**: definir dónde vive `cantidadRecibida` por línea (campo nuevo en `DetallePedido`) y que `aplicarResultadoRecepcion` la escriba de forma atómica junto con el estado (RNF-6).
+- [ ] **`consultarHistoricoVentas`**: conectar `HistoricoVentasPort` al módulo EIS real (HU-13); confirmar unidad de tiempo (mes) y forma del resultado.
+- [ ] **Perfil**: arrancar con `--spring.profiles.active=jpa`; el perfil `mock` desactiva la autoconfiguración de datasource, revisar `application.yml`.
+- [ ] **Pruebas**: re-ejecutar PT-12.1, PT-12.2, PT-13.1, PT-13.2, PT-14.1 contra el código real (hoy corren contra el mock; ver `PlanPruebasSprint1Test`). PT-15.1 y PT-15.2 no cambian.
+- [ ] Borrar `contrato/mock/` y `README-MOCK.md` cuando el adaptador real esté en verde.
 
 ---
 [← Anterior: Estrategia de Solución](04_solution_strategy.md) · [Volver al índice](arc42-template-ES.md) · [Siguiente: Vista de Ejecución →](06_runtime_view.md)
