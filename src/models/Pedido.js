@@ -1,6 +1,5 @@
 // src/models/Pedido.js
 // Entidad principal de HU-12 (Generar pedido).
-
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const DetallePedidoSchema = require('./DetallePedido');
@@ -24,6 +23,11 @@ const PedidoSchema = new Schema(
     fechaPedido: {
       type: Date,
       default: Date.now,
+    },
+    // --- HU-14: fecha estimada de recepción del pedido ---
+    fechaEstimada: {
+      type: Date,
+      default: null,
     },
     estado: {
       type: String,

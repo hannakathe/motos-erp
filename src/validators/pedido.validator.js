@@ -9,20 +9,15 @@ const crearPedidoRules = [
   body('proveedor')
     .exists({ checkFalsy: true }).withMessage('El proveedor es obligatorio')
     .custom(isValidObjectId).withMessage('El id de proveedor no es válido'),
-
   body('detalles')
     .isArray({ min: 1 }).withMessage('Debe incluir al menos un detalle (producto)'),
-
   body('detalles.*.producto')
     .exists({ checkFalsy: true }).withMessage('Cada detalle debe incluir un producto')
     .custom(isValidObjectId).withMessage('El id de producto no es válido'),
-
   body('detalles.*.cantidad')
     .isInt({ min: 1 }).withMessage('La cantidad de cada detalle debe ser un entero mayor a 0'),
-
   body('detalles.*.precioUnitario')
     .isFloat({ min: 0 }).withMessage('El precio unitario no puede ser negativo'),
-
   body('observaciones')
     .optional({ checkFalsy: true })
     .isLength({ max: 500 }).withMessage('Las observaciones no pueden superar 500 caracteres'),
@@ -30,6 +25,22 @@ const crearPedidoRules = [
 
 const idParamRule = [
   param('id').custom(isValidObjectId).withMessage('El id del pedido no es válido'),
+];
+
+// --- HU-14: Registrar fecha estimada ---
+const actualizarFechaEstimadaRules = [
+  body('fechaEstimada')
+    .exists({ checkFalsy: true }).withMessage('La fecha estimada es obligatoria')
+    .isISO8601().withMessage('La fecha estimada debe tener formato de fecha válido (YYYY-MM-DD)')
+    .custom((value) => {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fecha = new Date(value);
+      if (fecha < hoy) {
+        throw new Error('La fecha estimada no puede ser anterior a hoy');
+      }
+      return true;
+    }),
 ];
 
 function handleValidation(req, res, next) {
@@ -43,4 +54,9 @@ function handleValidation(req, res, next) {
   next();
 }
 
-module.exports = { crearPedidoRules, idParamRule, handleValidation };
+module.exports = {
+  crearPedidoRules,
+  idParamRule,
+  actualizarFechaEstimadaRules,
+  handleValidation,
+};

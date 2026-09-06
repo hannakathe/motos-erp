@@ -1,6 +1,5 @@
 // src/services/pedido.service.js
-// Lógica de negocio de HU-12: Generar pedido.
-
+// Lógica de negocio de HU-12: Generar pedido, y HU-14: Registrar fecha estimada.
 const Pedido = require('../models/Pedido');
 const Producto = require('../models/Producto');
 const Proveedor = require('../models/Proveedor');
@@ -14,12 +13,10 @@ const { DomainError, NotFoundError } = require('./errors');
 async function construirDetalles(detallesInput, proveedorId) {
   const productoIds = detallesInput.map((d) => d.producto);
   const productos = await Producto.find({ _id: { $in: productoIds } });
-
   const productosPorId = new Map(productos.map((p) => [p._id.toString(), p]));
 
   const detalles = detallesInput.map((item) => {
     const producto = productosPorId.get(item.producto.toString());
-
     if (!producto) {
       throw new NotFoundError(`Producto ${item.producto} no existe`);
     }
@@ -34,10 +31,8 @@ async function construirDetalles(detallesInput, proveedorId) {
     if (item.cantidad <= 0) {
       throw new DomainError('La cantidad debe ser mayor a 0');
     }
-
     const precioUnitario =
       item.precioUnitario !== undefined ? item.precioUnitario : producto.precio;
-
     return {
       producto: producto._id,
       cantidad: item.cantidad,
@@ -61,7 +56,6 @@ async function generarPedido(data) {
   if (!proveedor.activo) {
     throw new DomainError('El proveedor indicado no está activo');
   }
-
   if (!Array.isArray(data.detalles) || data.detalles.length === 0) {
     throw new DomainError('El pedido debe incluir al menos un detalle');
   }
@@ -96,15 +90,31 @@ async function obtenerPedidoPorId(id) {
   const pedido = await Pedido.findById(id)
     .populate('proveedor')
     .populate('detalles.producto');
-
   if (!pedido) {
     throw new NotFoundError('Pedido no encontrado');
   }
   return pedido;
 }
 
+// --- HU-14: Registrar fecha estimada ---
+/**
+ * Registra la fecha estimada de recepción de un pedido existente.
+ * La validación de formato/"no puede ser pasada" ya ocurre en el validator,
+ * aquí solo se valida la existencia del pedido y se persiste.
+ */
+async function actualizarFechaEstimada(id, fechaEstimada) {
+  const pedido = await Pedido.findById(id);
+  if (!pedido) {
+    throw new NotFoundError('Pedido no encontrado');
+  }
+  pedido.fechaEstimada = fechaEstimada;
+  await pedido.save();
+  return pedido.populate(['proveedor', 'detalles.producto']);
+}
+
 module.exports = {
   generarPedido,
   listarPedidos,
   obtenerPedidoPorId,
+  actualizarFechaEstimada,
 };
