@@ -37,6 +37,19 @@ async function obtenerPedido(req, res, next) {
   }
 }
 
+// --- HU-14: Registrar fecha estimada ---
+async function actualizarFechaEstimada(req, res, next) {
+  try {
+    const pedido = await pedidoService.actualizarFechaEstimada(
+      req.params.id,
+      req.body.fechaEstimada
+    );
+    return res.status(200).json(pedido);
+  } catch (err) {
+    return next(err);
+  }
+}
+
 // Middleware de manejo de errores específico de este dominio; se puede
 // registrar en el error handler global del proyecto en su lugar.
 function pedidoErrorHandler(err, req, res, next) {
@@ -46,4 +59,10 @@ function pedidoErrorHandler(err, req, res, next) {
   return next(err);
 }
 
-module.exports = { crearPedido, listarPedidos, obtenerPedido, pedidoErrorHandler };
+module.exports = {
+  crearPedido,
+  listarPedidos,
+  obtenerPedido,
+  actualizarFechaEstimada,
+  pedidoErrorHandler,
+};
