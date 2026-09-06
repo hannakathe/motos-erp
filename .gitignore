@@ -1,0 +1,17 @@
+# Maven / Java build
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.vscode/*
+!.vscode/settings.json
+
+# Logs / SO
+*.log
+.DS_Store
+Thumbs.db
