@@ -9,12 +9,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const pedidoRoutes = require('./src/routes/pedido.routes');
+const ventaRoutes = require('./src/routes/venta.routes'); // HU-13
 
 const app = express();
 app.use(express.json());
 
 // Rutas
 app.use('/api/pedidos', pedidoRoutes);
+app.use('/api/ventas', ventaRoutes); // HU-13
 
 app.get('/', (req, res) => {
   res.json({ mensaje: 'API motos-erp funcionando' });
