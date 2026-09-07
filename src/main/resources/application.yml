@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: motos-erp
+  # Perfil activo por defecto. `mock` usa el adaptador en memoria del contrato
+  # de HU-12/13/14 (ver com.andimotors.compras.contrato.mock) y NO necesita BD.
+  # Cuando HU-12/13/14 esten integradas, arrancar con --spring.profiles.active=jpa
+  # y registrar el adaptador real de persistencia.
+  profiles:
+    active: mock
+
+---
+spring:
+  config:
+    activate:
+      on-profile: mock
+  # El modulo de Recepcion (HU-15) todavia no tiene persistencia propia: consume
+  # el contrato via puerto y el adaptador mock es 100% en memoria. Se desactiva la
+  # autoconfiguracion de datasource/JPA para poder arrancar sin PostgreSQL.
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jpa
+  datasource:
+    url: jdbc:postgresql://localhost:5432/andimotors
+    username: andimotors
+    password: andimotors
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false

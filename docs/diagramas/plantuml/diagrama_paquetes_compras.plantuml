@@ -4,10 +4,24 @@ package "Compras" {
   package "PedidosFabrica" {
     class SeleccionarModelosYCantidades
     class RegistrarFechaEntrega
+    note bottom of SeleccionarModelosYCantidades
+      HU-12/13/14 - en construccion.
+      HU-15 consume estas capacidades a traves
+      del contrato temporal
+      com.andimotors.compras.contrato
+      (ver arc42 5.7).
+    end note
   }
 
   package "RecepcionPedidos" {
     class ValidarUnidadesContraOrden
+    note bottom of ValidarUnidadesContraOrden
+      HU-15 - IMPLEMENTADO
+      (com.andimotors.compras.recepcion):
+      RecepcionController -> ValidarRecepcionService
+      -> ComparadorRecepcion.
+      Detalle en arc42 5.6 y secuencia en 6.5.
+    end note
   }
 }
 
